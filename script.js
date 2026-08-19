@@ -10,7 +10,45 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 400);
     });
 
-    // 2. Navigation: Scroll Progress & Navbar Shrink
+    // 2. Premium Theme Toggle Logic (Dark Mode)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = themeToggleBtn.querySelector('i');
+
+    // Initialize icon correctly based on class set in <head>
+    if (document.documentElement.classList.contains('dark-theme')) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+
+    function setTheme(isDark) {
+        // Add transition class for smooth 400ms fade without impacting initial load
+        document.documentElement.classList.add('theme-transition');
+        
+        if (isDark) {
+            document.documentElement.classList.add('dark-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark-theme');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            localStorage.setItem('theme', 'light');
+        }
+
+        // Remove transition class after animation completes
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-transition');
+        }, 400);
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = !document.documentElement.classList.contains('dark-theme');
+        setTheme(isDark);
+    });
+
+
+    // 3. Navigation: Scroll Progress & Navbar Shrink
     const scrollProgress = document.getElementById('scroll-progress');
     const navbar = document.getElementById('navbar');
     
@@ -47,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateActiveNav(scrollTop);
     }
 
-    // 3. Navigation: Mobile Hamburger Menu
+    // 4. Navigation: Mobile Hamburger Menu
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     
@@ -77,21 +115,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 4. Hero Parallax (Optimized)
+    // 5. Hero Parallax (Optimized)
     const heroBg = document.querySelector('.hero-bg');
-    const facilityHeroBg = document.querySelector('.facility-hero-bg');
     
     window.addEventListener('scroll', () => {
         let scroll = window.pageYOffset;
         if(heroBg && scroll < window.innerHeight) {
             heroBg.style.transform = `translateY(${scroll * 0.35}px)`;
         }
-        if(facilityHeroBg && scroll > 0) {
-            // Optional parallax for internal hero sections if needed, background-attachment: fixed usually handles this better via CSS.
-        }
     });
 
-    // 5. Micro Animations: Scroll Reveal using Intersection Observer
+    // 6. Micro Animations: Scroll Reveal using Intersection Observer
     const reveals = document.querySelectorAll('.reveal');
     const revealOptions = {
         threshold: 0.1,
@@ -109,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     reveals.forEach(reveal => revealObserver.observe(reveal));
 
-    // 6. Statistics: Animated Counters
+    // 7. Statistics: Animated Counters
     const counters = document.querySelectorAll('.counter');
     let counted = false;
     
@@ -142,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const statsSection = document.querySelector('.about-stats');
     if(statsSection) counterObserver.observe(statsSection);
 
-    // 7. Micro Animations: Mouse Hover Glow on Cards
+    // 8. Micro Animations: Mouse Hover Glow on Cards
     document.addEventListener('mousemove', e => {
         document.querySelectorAll('.glow-card').forEach(card => {
             const rect = card.getBoundingClientRect();
@@ -153,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 8. Micro Animations: Ripple Effect (Touch and Click)
+    // 9. Micro Animations: Ripple Effect (Touch and Click)
     document.addEventListener('click', function(e) {
         // Find closest element with ripple classes
         const btn = e.target.closest('.ripple, .ripple-container');
@@ -172,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 9. Navigation: Smooth Scrolling for Anchor Links
+    // 10. Navigation: Smooth Scrolling for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
@@ -197,7 +231,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     targetElement.style.transition = "background-color 0.5s ease";
                     targetElement.style.backgroundColor = "rgba(212, 175, 55, 0.1)"; // Gold flash
                     setTimeout(() => {
-                        targetElement.style.backgroundColor = "#fff";
+                        // Inherit current theme background dynamically
+                        targetElement.style.backgroundColor = ""; 
                     }, 1000);
                 }
             }

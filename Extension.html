@@ -15,6 +15,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Theme Initialization Script (Prevents FOUC - Flash of Unstyled Content) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark-theme');
+        }
+    </script>
 </head>
 <body>
 
@@ -40,9 +49,17 @@
                 <li role="none"><a href="#facilities-list" role="menuitem">المرافق</a></li>
                 <li role="none"><a href="#contact" role="menuitem">تواصل معنا</a></li>
             </ul>
-            <button class="hamburger" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navbar">
-                <i class="fas fa-bars" aria-hidden="true"></i>
-            </button>
+            
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                </button>
+                
+                <button class="hamburger" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navbar">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -58,7 +75,7 @@
                     <a href="#quick-access" class="btn btn-primary ripple" aria-label="استكشف خدمات دار المركبات">
                         <i class="fas fa-compass" aria-hidden="true"></i> استكشف الخدمات
                     </a>
-                    <a href="https://wa.me/201000000000" class="btn btn-secondary ripple" aria-label="تواصل معنا عبر واتساب" target="_blank" rel="noopener">
+                    <a href="https://wa.me/201070322434" class="btn btn-secondary ripple" aria-label="تواصل معنا عبر واتساب" target="_blank" rel="noopener">
                         <i class="fab fa-whatsapp" aria-hidden="true"></i> تواصل معنا
                     </a>
                 </div>
@@ -268,8 +285,8 @@
                     <div class="about-text reveal fade-in">
                         <h3 class="section-subtitle">عن الفندق</h3>
                         <h2 class="section-title">إقامة استثنائية في <span class="highlight">دار المركبات</span></h2>
-                        <p>يُعد فندق شاريـوت وجهتك المثالية لإقامة مريحة وهادئة داخل مجمع دار المركبات. نرحب بجميع الزوار من العائلات، المسافرين، وضيوف الأعمال، لنقدم لهم تجربة ضيافة احترافية تجمع بين الرقي والهدوء.</p>
-                        <p>يتميز الفندق بجو يبعث على الاسترخاء مع خدمات متكاملة ومرافق حديثة تعمل على مدار الساعة لضمان تلبية كافة احتياجاتكم وتوفير أقصى درجات الراحة والخصوصية طوال فترة إقامتكم.</p>
+                        <p class="section-desc" style="margin-right: 0;">يُعد فندق شاريـوت وجهتك المثالية لإقامة مريحة وهادئة داخل مجمع دار المركبات. نرحب بجميع الزوار من العائلات، المسافرين، وضيوف الأعمال، لنقدم لهم تجربة ضيافة احترافية تجمع بين الرقي والهدوء.</p>
+                        <p class="section-desc" style="margin-right: 0; margin-top: 10px;">يتميز الفندق بجو يبعث على الاسترخاء مع خدمات متكاملة ومرافق حديثة تعمل على مدار الساعة لضمان تلبية كافة احتياجاتكم وتوفير أقصى درجات الراحة والخصوصية طوال فترة إقامتكم.</p>
                     </div>
                     <div class="about-stats reveal slide-up">
                         <div class="stat-box glow-card">
@@ -372,13 +389,10 @@
             </div>
         </section>
 
-        <!-- SWEET PALACE SECTION (سويت بالاس للحلويات) -->
+        <!-- SWEET PALACE SECTION -->
         <section id="sweet-palace" class="facility-master-section">
-            
-            <!-- Sweet Palace Hero -->
             <div class="facility-hero">
                 <div class="facility-hero-bg" style="background-image: url('assets/sweet-palace/hero.jpg');"></div>
-                <!-- Warmer overlay applied dynamically for this section -->
                 <div class="facility-hero-overlay" style="background: linear-gradient(0deg, rgba(45, 33, 20, 0.9) 0%, rgba(10, 10, 10, 0.5) 100%);"></div>
                 <div class="facility-hero-content reveal slide-up">
                     <h2 class="facility-hero-title" style="color: var(--secondary);">Sweet Palace</h2>
@@ -391,14 +405,13 @@
                 </div>
             </div>
 
-            <!-- About Sweet Palace -->
             <div class="section">
                 <div class="container about-grid">
                     <div class="about-text reveal fade-in">
                         <h3 class="section-subtitle">عن Sweet Palace</h3>
                         <h2 class="section-title">مذاق الأصالة بلمسة <span class="highlight">عصرية</span></h2>
-                        <p>يُعد Sweet Palace من الوجهات المميزة داخل مجمع دار المركبات، حيث يتخصص في تقديم أرقى وألذ أصناف الحلويات والمعجنات التي ترضي جميع الأذواق. نحرص دائماً على اختيار أجود المكونات الطازجة لنضمن لكم تجربة تذوق استثنائية.</p>
-                        <p>سواء كنتم تبحثون عن فنجان قهوة غني في الصباح، أو تورتة مصممة خصيصاً لمناسباتكم السعيدة، فإن فريقنا المتخصص متواجد دائماً لتقديم الأفضل بحب واحترافية.</p>
+                        <p class="section-desc" style="margin-right: 0;">يُعد Sweet Palace من الوجهات المميزة داخل مجمع دار المركبات، حيث يتخصص في تقديم أرقى وألذ أصناف الحلويات والمعجنات التي ترضي جميع الأذواق. نحرص دائماً على اختيار أجود المكونات الطازجة لنضمن لكم تجربة تذوق استثنائية.</p>
+                        <p class="section-desc" style="margin-right: 0; margin-top: 10px;">سواء كنتم تبحثون عن فنجان قهوة غني في الصباح، أو تورتة مصممة خصيصاً لمناسباتكم السعيدة، فإن فريقنا المتخصص متواجد دائماً لتقديم الأفضل بحب واحترافية.</p>
                         
                         <div class="feature-tags-grid mt-4" style="justify-content: flex-start;">
                             <span class="feature-badge hover-lift"><i class="fas fa-star"></i> الحلويات الشرقية</span>
@@ -426,7 +439,6 @@
                 </div>
             </div>
 
-            <!-- Services -->
             <div class="section bg-light">
                 <div class="container reveal fade-in">
                     <h3 class="section-subtitle text-center">خدماتنا</h3>
@@ -444,23 +456,11 @@
                 </div>
             </div>
 
-            <!-- MENU SECTION (Reusable System) -->
             <div class="section">
                 <div class="container reveal slide-up">
                     <h3 class="section-subtitle text-center">تصفح اختياراتنا</h3>
                     <h2 class="section-title text-center">قائمة المنتجات</h2>
-                    
                     <div class="menu-grid mt-4">
-                        <!-- System built to automatically support images loaded here -->
-                        <!-- Example of active menu item (Commented for future use when images exist) -->
-                        <!--
-                        <div class="menu-item hover-zoom lightbox-trigger glow-card">
-                            <img src="assets/sweet-palace/menu/page1.jpg" alt="قائمة المشروبات والحلويات" loading="lazy">
-                            <div class="overlay"><i class="fas fa-search-plus"></i></div>
-                        </div>
-                        -->
-
-                        <!-- Elegant Placeholder (Displays if no images exist) -->
                         <article class="coming-soon-banner glass-card hover-lift" style="grid-column: 1 / -1;">
                             <div class="banner-icon"><i class="fas fa-book-open"></i></div>
                             <div class="banner-info">
@@ -472,7 +472,6 @@
                 </div>
             </div>
 
-            <!-- Why Sweet Palace -->
             <div class="section bg-light">
                 <div class="container text-center reveal fade-in">
                     <h3 class="section-subtitle">لماذا تختارنا</h3>
@@ -502,12 +501,10 @@
                 </div>
             </div>
 
-            <!-- Sweet Palace Gallery -->
             <div class="section">
                 <div class="container reveal slide-up">
                     <h3 class="section-subtitle text-center">معرض الصور</h3>
                     <h2 class="section-title text-center">عدسة Sweet Palace</h2>
-                    <!-- Fully responsive Masonry supporting 15+ images -->
                     <div class="masonry-grid mt-4">
                         <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/1.jpg" alt="تشكيلة حلويات" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
                         <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/2.jpg" alt="تورتة فاخرة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
@@ -515,20 +512,10 @@
                         <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/4.jpg" alt="جلسات الكافيه" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
                         <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/5.jpg" alt="حلويات شرقية" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
                         <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/6.jpg" alt="مخبوزات طازجة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/7.jpg" alt="تورتة زفاف" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/8.jpg" alt="مشروب بارد" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/9.jpg" alt="تفاصيل الحلويات" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/10.jpg" alt="جلسات العائلات" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/11.jpg" alt="عرض المنتجات" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/12.jpg" alt="صناعة القهوة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/13.jpg" alt="بوكس الهدايا" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/14.jpg" alt="شوكولاتة فاخرة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/15.jpg" alt="أجواء المكان" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Info & Location -->
             <div class="section bg-light">
                 <div class="container reveal slide-up">
                     <div class="contact-grid">
@@ -549,7 +536,6 @@
                 </div>
             </div>
 
-            <!-- Call To Action Banner -->
             <div class="section pt-0 bg-light">
                 <div class="container reveal fade-in">
                     <div class="cta-banner glow-card">
@@ -690,7 +676,8 @@
         </div>
     </footer>
 
-    <a href="https://wa.me/201000000000" class="floating-whatsapp whatsapp-btn ripple-container" target="_blank" rel="noopener" aria-label="تواصل عبر واتساب">
+    <!-- GLOBAL FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/201070322434" class="whatsapp-global entrance" target="_blank" rel="noopener" aria-label="تواصل مع دار المركبات عبر واتساب">
         <i class="fab fa-whatsapp"></i>
     </a>
 
