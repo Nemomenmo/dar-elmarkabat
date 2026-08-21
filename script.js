@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const mobileLinks = document.querySelectorAll('.mobile-link:not(.open-contact-modal)');
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) navbar.classList.add('scrolled');
@@ -236,4 +236,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (touchEndX < touchStartX - 50) nextImage();
         if (touchEndX > touchStartX + 50) prevImage();
     }, { passive: true });
+
+    /* ==========================================================================
+       6. CONTACT MODAL LOGIC
+       ========================================================================== */
+    const contactModal = document.getElementById('contact-modal');
+    const openContactBtns = document.querySelectorAll('.open-contact-modal');
+    const closeContactBtn = document.querySelector('.close-modal');
+
+    function openContact() {
+        if (mobileMenu.classList.contains('active')) {
+            toggleMobileMenu();
+        }
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeContact() {
+        contactModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    openContactBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openContact();
+        });
+    });
+
+    closeContactBtn.addEventListener('click', closeContact);
+    
+    contactModal.addEventListener('click', (e) => {
+        if (e.target === contactModal) closeContact();
+    });
 });

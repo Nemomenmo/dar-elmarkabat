@@ -27,6 +27,7 @@
                 <a href="#home" class="nav-item">الرئيسية</a>
                 <a href="#directory" class="nav-item">استكشف</a>
                 <a href="#hotel" class="nav-item">المرافق</a>
+                <a href="#" class="nav-item open-contact-modal">تواصل معنا</a>
             </div>
             <div class="nav-actions">
                 <button id="theme-toggle" class="icon-btn" aria-label="تبديل المظهر">
@@ -45,6 +46,7 @@
             <a href="#home" class="mobile-link">الرئيسية</a>
             <a href="#directory" class="mobile-link">استكشف</a>
             <a href="#hotel" class="mobile-link">المرافق</a>
+            <a href="#" class="mobile-link open-contact-modal">تواصل معنا</a>
         </div>
     </div>
 
@@ -58,11 +60,36 @@
             <h1 class="hero-title reveal-text">مرحباً بكم<br>في دار المركبات</h1>
             <p class="hero-subtitle reveal-text delay-1">كل ما تحتاجه في مكان واحد</p>
         </div>
-        <a href="#experience-intro" class="scroll-indicator" aria-label="استكشف">
+        <a href="#promotions" class="scroll-indicator" aria-label="استكشف">
             <span class="scroll-text">استكشف دار المركبات</span>
             <i class="fas fa-chevron-down scroll-arrow"></i>
         </a>
     </header>
+
+   <!-- Exclusive Promo Banner -->
+    <section id="promotions" class="promo-section section-padding bg-alternate">
+        <div class="container promo-container reveal-up">
+            <!-- The text content you accidentally deleted -->
+            <div class="promo-content">
+                <span class="promo-badge"><i class="fas fa-star"></i> عرض حصري</span>
+                <h2 class="gold-text">احتفالات المولد النبوي الشريف</h2>
+                <p>تشكيلة فاخرة من حلاوة المولد متوفرة الآن في Sweet Palace. شارك أحبابك فرحة الاحتفال بأرقى النكهات داخل دار المركبات.</p>
+                <a href="#sweet-palace" class="btn btn-primary">اكتشف Sweet Palace</a>
+            </div>
+            
+            <!-- Your new 3-image gallery -->
+            <div class="promo-gallery">
+                <!-- Main large image -->
+                <img src="./assets/promo/1.jpg" alt="عرض المولد 1" class="promo-img main-promo lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                
+                <!-- Two smaller thumbnails -->
+                <div class="promo-thumbs">
+                    <img src="./assets/promo/2.jpg" alt="عرض المولد 2" class="promo-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                    <img src="./assets/promo/3.jpg" alt="عرض المولد 3" class="promo-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Cinematic Transition -->
     <section id="experience-intro" class="cinematic-transition">
@@ -89,11 +116,54 @@
     <!-- Full Facility Sections will be injected here via script.js -->
     <div id="facility-sections-container"></div>
 
-    <!-- Global WhatsApp -->
-    <a href="https://wa.me/201070322434" class="global-whatsapp" target="_blank" aria-label="تواصل مع خدمة العملاء">
-        <div class="whatsapp-ring"></div>
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Floating Social Group -->
+    <div class="floating-social-group">
+        <a href="https://www.facebook.com/Dar.elmarkabat" class="social-float facebook" target="_blank" aria-label="فيسبوك دار المركبات">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://wa.me/201070322434" class="social-float whatsapp" target="_blank" aria-label="واتساب خدمة العملاء">
+            <div class="whatsapp-ring"></div>
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Premium Contact Modal -->
+    <div id="contact-modal" class="glass-modal">
+        <div class="glass-modal-content">
+            <div class="modal-header">
+                <h3>دليل التواصل المباشر</h3>
+                <button class="icon-btn close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class="fas fa-headset contact-icon"></i>
+                    <h4>خدمة العملاء</h4>
+                    <a href="tel:0223428242" class="contact-link" dir="ltr">02 2342 8242</a>
+                    <a href="https://wa.me/201070322434" target="_blank" class="contact-link wa-link" dir="ltr">+20 107 032 2434</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-concierge-bell contact-icon"></i>
+                    <h4>الاستقبال (الفندق والشاليهات)</h4>
+                    <a href="tel:+201022006906" class="contact-link" dir="ltr">+20 102 200 6906</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-glass-cheers contact-icon"></i>
+                    <h4>مكتب الحفلات</h4>
+                    <a href="tel:+201103307919" class="contact-link" dir="ltr">+20 110 330 7919</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-birthday-cake contact-icon"></i>
+                    <h4>Sweet Palace</h4>
+                    <a href="tel:01032177049" class="contact-link" dir="ltr">010 3217 7049</a>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-running contact-icon"></i>
+                    <h4>مكتب الأنشطة الرياضية</h4>
+                    <a href="tel:+201070322434" class="contact-link" dir="ltr">+20 107 032 2434</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Advanced Lightbox / Menu Viewer -->
     <div id="lightbox" class="lightbox">
