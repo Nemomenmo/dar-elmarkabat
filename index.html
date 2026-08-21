@@ -1,692 +1,115 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="دار المركبات - الدليل الرقمي الرسمي للمنشآت والخدمات.">
-    <meta name="theme-color" content="#3F5E3B">
-    <meta property="og:title" content="دار المركبات | الدليل الرقمي">
-    <meta property="og:description" content="كل ما تحتاجه في مكان واحد - استكشف جميع المنشآت والخدمات داخل مجمع دار المركبات.">
-    <meta property="og:type" content="website">
-    <title>دار المركبات | الدليل الرسمي</title>
-    
+    <title>دار المركبات | Dar Elmarkabat</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-
-    <!-- Theme Initialization Script (Prevents FOUC - Flash of Unstyled Content) -->
-    <script>
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            document.documentElement.classList.add('dark-theme');
-        }
-    </script>
 </head>
 <body>
-
-    <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
-
-    <div id="loader" aria-hidden="true">
-        <div class="spinner"></div>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-content">
+            <h2 class="loader-logo">دار المركبات</h2>
+            <div class="loader-line"></div>
+        </div>
     </div>
 
-    <div id="scroll-progress" aria-hidden="true"></div>
-
-    <nav id="navbar" role="navigation" aria-label="القائمة الرئيسية">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo" aria-label="دار المركبات - الرئيسية">
-                <img src="assets/logo/logo.png" alt="شعار دار المركبات" id="nav-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span class="logo-text" style="display: none;">دار المركبات</span>
-            </a>
-            <ul class="nav-links" role="menubar">
-                <li role="none"><a href="#hero" class="active" role="menuitem">الرئيسية</a></li>
-                <li role="none"><a href="#quick-access" role="menuitem">الخدمات</a></li>
-                <li role="none"><a href="#stats" role="menuitem">إحصائيات</a></li>
-                <li role="none"><a href="#why-us" role="menuitem">مميزاتنا</a></li>
-                <li role="none"><a href="#facilities-list" role="menuitem">المرافق</a></li>
-                <li role="none"><a href="#contact" role="menuitem">تواصل معنا</a></li>
-            </ul>
-            
+            <a href="#home" class="brand-logo">دار المركبات</a>
+            <div class="nav-links desktop-only">
+                <a href="#home" class="nav-item">الرئيسية</a>
+                <a href="#directory" class="nav-item">استكشف</a>
+                <a href="#hotel" class="nav-item">المرافق</a>
+            </div>
             <div class="nav-actions">
-                <!-- Theme Switcher -->
-                <button id="theme-toggle" class="theme-toggle" aria-label="تبديل المظهر">
-                    <i class="fas fa-moon" aria-hidden="true"></i>
+                <button id="theme-toggle" class="icon-btn" aria-label="تبديل المظهر">
+                    <i class="fas fa-moon"></i>
                 </button>
-                
-                <button class="hamburger" aria-label="فتح القائمة" aria-expanded="false" aria-controls="navbar">
-                    <i class="fas fa-bars" aria-hidden="true"></i>
+                <button id="mobile-menu-btn" class="icon-btn mobile-only" aria-label="القائمة">
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main id="main-content">
-        <!-- HERO SECTION -->
-        <header id="hero" aria-labelledby="hero-title">
-            <div class="hero-bg" style="background-image: url('assets/hero/hero.jpg');" aria-hidden="true"></div>
-            <div class="hero-overlay" aria-hidden="true"></div>
-            <div class="hero-content reveal slide-up">
-                <h1 id="hero-title" class="hero-title-ar">مرحباً بكم في دار المركبات</h1>
-                <p class="hero-subtitle">كل ما تحتاجه في مكان واحد</p>
-                <div class="hero-buttons">
-                    <a href="#quick-access" class="btn btn-primary ripple" aria-label="استكشف خدمات دار المركبات">
-                        <i class="fas fa-compass" aria-hidden="true"></i> استكشف الخدمات
-                    </a>
-                    <a href="https://wa.me/201070322434" class="btn btn-secondary ripple" aria-label="تواصل معنا عبر واتساب" target="_blank" rel="noopener">
-                        <i class="fab fa-whatsapp" aria-hidden="true"></i> تواصل معنا
-                    </a>
-                </div>
-            </div>
-            <a href="#quick-access" class="scroll-down" aria-label="التمرير للأسفل">
-                <i class="fas fa-chevron-down" aria-hidden="true"></i>
-            </a>
-        </header>
-
-        <!-- QUICK ACCESS SECTION -->
-        <section id="quick-access" class="section bg-light">
-            <div class="container reveal fade-in">
-                <h3 class="section-subtitle text-center">بوابة المجمع</h3>
-                <h2 class="section-title text-center">استكشف مرافق دار المركبات</h2>
-                <p class="section-desc text-center">اضغط على أي منشأة للانتقال إلى التفاصيل</p>
-                
-                <div class="quick-access-grid mt-4">
-                    <a href="#hotel" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-hotel"></i></div>
-                            <div class="access-text">
-                                <h4>فندق شاريوت</h4>
-                                <p>إقامة فندقية فاخرة ومريحة</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#sweet-palace" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-birthday-cake"></i></div>
-                            <div class="access-text">
-                                <h4>Sweet Palace</h4>
-                                <p>أشهى الحلويات والمشروبات</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#chalets" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-home"></i></div>
-                            <div class="access-text">
-                                <h4>الشاليهات</h4>
-                                <p>خصوصية تامة واستجمام عائلي</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#swimming-pool" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-swimming-pool"></i></div>
-                            <div class="access-text">
-                                <h4>حمام السباحة</h4>
-                                <p>أوقات ممتعة ومنعشة للجميع</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#restaurants" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-utensils"></i></div>
-                            <div class="access-text">
-                                <h4>المطاعم</h4>
-                                <p>أشهى الأطباق الشرقية والغربية</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#cafes" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-coffee"></i></div>
-                            <div class="access-text">
-                                <h4>الكافيتيريات</h4>
-                                <p>مشروبات وجلسات هادئة وراقية</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#suite-palace" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-crown"></i></div>
-                            <div class="access-text">
-                                <h4>سويت بالاس</h4>
-                                <p>أجنحة ملكية فخمة لصفوة الزوار</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#wedding-halls" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-ring"></i></div>
-                            <div class="access-text">
-                                <h4>قاعات الأفراح</h4>
-                                <p>لذكريات ومناسبات لا تُنسى</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#sports" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-futbol"></i></div>
-                            <div class="access-text">
-                                <h4>الأنشطة الرياضية</h4>
-                                <p>ملاعب ولياقة وحيوية مستمرة</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-
-                    <a href="#market" class="access-card hover-lift glow-card ripple-container">
-                        <div class="card-content">
-                            <div class="access-icon"><i class="fas fa-shopping-basket"></i></div>
-                            <div class="access-text">
-                                <h4>الماركت</h4>
-                                <p>تسوق شامل لجميع احتياجاتك</p>
-                            </div>
-                            <div class="access-arrow"><i class="fas fa-arrow-left"></i></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- STATISTICS SECTION -->
-        <section id="stats" class="section">
-            <div class="container reveal slide-up">
-                <div class="about-stats">
-                    <div class="stat-box glow-card">
-                        <i class="fas fa-building" aria-hidden="true"></i>
-                        <h3 class="counter" data-target="12">0</h3>
-                        <p>عدد المرافق</p>
-                    </div>
-                    <div class="stat-box glow-card">
-                        <i class="fas fa-running" aria-hidden="true"></i>
-                        <h3 class="counter" data-target="8">0</h3>
-                        <p>عدد الأنشطة</p>
-                    </div>
-                    <div class="stat-box glow-card">
-                        <i class="fas fa-mug-hot" aria-hidden="true"></i>
-                        <h3 class="counter" data-target="5">0</h3>
-                        <p>المطاعم والكافيتيريات</p>
-                    </div>
-                    <div class="stat-box glow-card">
-                        <i class="fas fa-bed" aria-hidden="true"></i>
-                        <h3 class="counter" data-target="3">0</h3>
-                        <p>أماكن الإقامة</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- WHY CHOOSE US -->
-        <section id="why-us" class="section bg-light">
-            <div class="container text-center reveal fade-in">
-                <h3 class="section-subtitle">لماذا دار المركبات</h3>
-                <h2 class="section-title">تجربة استثنائية <span class="highlight">بكل المقاييس</span></h2>
-                
-                <div class="why-grid mt-4">
-                    <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                        <div class="icon-wrapper"><i class="fas fa-award"></i></div>
-                        <h4>التميز والجودة</h4>
-                        <p>نلتزم بتقديم أرقى مستويات الخدمة والضيافة التي تفوق التوقعات.</p>
-                    </div>
-                    <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                        <div class="icon-wrapper"><i class="fas fa-layer-group"></i></div>
-                        <h4>تنوع الخدمات</h4>
-                        <p>مجمع متكامل يلبي كافة الاحتياجات الترفيهية والسكنية والاجتماعية.</p>
-                    </div>
-                    <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                        <div class="icon-wrapper"><i class="fas fa-shield-alt"></i></div>
-                        <h4>بيئة آمنة وراقية</h4>
-                        <p>نظام أمني متكامل وخصوصية تامة لضمان راحتك وراحة عائلتك.</p>
-                    </div>
-                    <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                        <div class="icon-wrapper"><i class="fas fa-map-marked-alt"></i></div>
-                        <h4>موقع استراتيجي</h4>
-                        <p>سهولة الوصول وتوفر مساحات واسعة في أرقى المواقع.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CHARIOT HOTEL SECTION -->
-        <section id="hotel" class="facility-master-section">
-            <div class="facility-hero">
-                <div class="facility-hero-bg" style="background-image: url('assets/hotel/hero.jpg');"></div>
-                <div class="facility-hero-overlay"></div>
-                <div class="facility-hero-content reveal slide-up">
-                    <h2 class="facility-hero-title">فندق شاريـوت</h2>
-                    <p class="facility-hero-subtitle">راحة، ضيافة، وجودة في قلب دار المركبات</p>
-                    <div class="hero-buttons mt-4">
-                        <a href="tel:+201022006906" class="btn btn-primary ripple"><i class="fas fa-phone-alt"></i> اتصل الآن</a>
-                        <a href="https://maps.app.goo.gl/cQcMkU4UgcAsrKpr9?g_st=ac" target="_blank" rel="noopener" class="btn btn-secondary ripple"><i class="fas fa-map-marker-alt"></i> عرض الموقع</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container about-grid">
-                    <div class="about-text reveal fade-in">
-                        <h3 class="section-subtitle">عن الفندق</h3>
-                        <h2 class="section-title">إقامة استثنائية في <span class="highlight">دار المركبات</span></h2>
-                        <p class="section-desc" style="margin-right: 0;">يُعد فندق شاريـوت وجهتك المثالية لإقامة مريحة وهادئة داخل مجمع دار المركبات. نرحب بجميع الزوار من العائلات، المسافرين، وضيوف الأعمال، لنقدم لهم تجربة ضيافة احترافية تجمع بين الرقي والهدوء.</p>
-                        <p class="section-desc" style="margin-right: 0; margin-top: 10px;">يتميز الفندق بجو يبعث على الاسترخاء مع خدمات متكاملة ومرافق حديثة تعمل على مدار الساعة لضمان تلبية كافة احتياجاتكم وتوفير أقصى درجات الراحة والخصوصية طوال فترة إقامتكم.</p>
-                    </div>
-                    <div class="about-stats reveal slide-up">
-                        <div class="stat-box glow-card">
-                            <i class="fas fa-concierge-bell"></i>
-                            <h3>24/7</h3>
-                            <p>خدمة واستقبال</p>
-                        </div>
-                        <div class="stat-box glow-card">
-                            <i class="fas fa-user-friends"></i>
-                            <h3>للجميع</h3>
-                            <p>نرحب بكافة الزوار</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section bg-light">
-                <div class="container reveal fade-in">
-                    <h3 class="section-subtitle text-center">خدماتنا</h3>
-                    <h2 class="section-title text-center">وسائل الراحة والمرافق</h2>
-                    <div class="services-grid mt-4">
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-clock"></i><h4>استقبال 24 ساعة</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-wifi"></i><h4>واي فاي مجاني</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-snowflake"></i><h4>تكييف</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-parking"></i><h4>مواقف سيارات</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-door-open"></i><h4>خدمة الغرف</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-utensils"></i><h4>مطعم</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-coffee"></i><h4>إفطار</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-arrows-alt-v"></i><h4>مصعد</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-users"></i><h4>غرف عائلية</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-heart"></i><h4>أجنحة للمتزوجين</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-gem"></i><h4>غرف تجهيز العرائس</h4></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container text-center reveal fade-in">
-                    <h3 class="section-subtitle">لماذا فندق شاريوت</h3>
-                    <h2 class="section-title">مميزات الإقامة</h2>
-                    <div class="feature-tags-grid mt-4">
-                        <span class="feature-badge hover-lift"><i class="fas fa-check-circle"></i> الراحة التامة</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-map-marker-alt"></i> الموقع الممتاز</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-smile"></i> الخدمة الودودة</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-user-shield"></i> الخصوصية</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-broom"></i> نظافة الغرف</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-headset"></i> استقبال على مدار الساعة</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-star"></i> ضيافة راقية</span>
-                        <span class="feature-badge hover-lift"><i class="fas fa-building"></i> مرافق حديثة</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section bg-light">
-                <div class="container reveal slide-up">
-                    <h3 class="section-subtitle text-center">معرض الصور</h3>
-                    <h2 class="section-title text-center">جولة داخل الفندق</h2>
-                    <div class="masonry-grid mt-4">
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/hotel/1.jpg" alt="غرفة فندقية" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/hotel/2.jpg" alt="جناح المتزوجين" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/hotel/3.jpg" alt="منطقة الاستقبال" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/hotel/4.jpg" alt="المطعم الفندقي" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/hotel/5.jpg" alt="الغرف العائلية" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/hotel/6.jpg" alt="إطلالة الفندق" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container reveal slide-up">
-                    <div class="contact-grid">
-                        <div class="info-card glass-card">
-                            <h3 class="section-subtitle">معلومات سريعة</h3>
-                            <h2 class="section-title">تواصل مع <span class="highlight">الفندق</span></h2>
-                            <ul class="contact-list mt-4">
-                                <li class="contact-card"><div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div><div class="info-text"><h4>الموقع</h4><span>داخل مجمع دار المركبات</span></div></li>
-                                <li class="contact-card"><div class="icon-circle"><i class="fas fa-phone-alt"></i></div><div class="info-text"><h4>الهاتف</h4><span dir="ltr">+20 102 200 6906</span></div></li>
-                                <li class="contact-card"><div class="icon-circle"><i class="fab fa-whatsapp"></i></div><div class="info-text"><h4>واتساب</h4><span dir="ltr">+20 102 200 6906</span></div></li>
-                                <li class="working-hours-card"><div class="icon-circle"><i class="fas fa-clock"></i></div><div class="info-text"><h4>ساعات العمل</h4><span>24 ساعة - طوال أيام الأسبوع</span></div></li>
-                            </ul>
-                        </div>
-                        <div class="map-container glass-card google-maps-card">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.923485746356!2d31.32185!3d30.067645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583e58284646bd%3A0xc3b8a3ea3ecfc426!2z2K_Yp9ixINin2YTZhdi52LHZgdin2Ko!5e0!3m2!1sar!2seg!4v1700000000000!5m2!1sar!2seg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section pt-0">
-                <div class="container reveal fade-in">
-                    <div class="cta-banner glow-card">
-                        <h2>احجز إقامتك واستمتع بتجربة مريحة داخل دار المركبات.</h2>
-                        <div class="cta-buttons mt-4">
-                            <a href="tel:+201022006906" class="btn btn-primary ripple"><i class="fas fa-phone-alt"></i> اتصل الآن</a>
-                            <a href="https://wa.me/201022006906" target="_blank" rel="noopener" class="btn btn-secondary ripple"><i class="fab fa-whatsapp"></i> واتساب</a>
-                            <a href="https://maps.app.goo.gl/cQcMkU4UgcAsrKpr9?g_st=ac" target="_blank" rel="noopener" class="btn btn-outline ripple"><i class="fas fa-map-marked-alt"></i> عرض الموقع</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SWEET PALACE SECTION -->
-        <section id="sweet-palace" class="facility-master-section">
-            <div class="facility-hero">
-                <div class="facility-hero-bg" style="background-image: url('assets/sweet-palace/hero.jpg');"></div>
-                <div class="facility-hero-overlay" style="background: linear-gradient(0deg, rgba(45, 33, 20, 0.9) 0%, rgba(10, 10, 10, 0.5) 100%);"></div>
-                <div class="facility-hero-content reveal slide-up">
-                    <h2 class="facility-hero-title" style="color: var(--secondary);">Sweet Palace</h2>
-                    <p class="facility-hero-subtitle">حلويات... مشروبات... ولحظات لا تُنسى</p>
-                    <p class="section-desc mt-4" style="color: #f1f1f1;">يقدم سويت بالاس تشكيلة فاخرة من الحلويات، التورتات والمشروبات الساخنة والباردة في أجواء مريحة تناسب العائلات والأصدقاء وجميع الزوار.</p>
-                    <div class="hero-buttons mt-4">
-                        <a href="tel:01032177049" class="btn btn-primary ripple"><i class="fas fa-phone-alt"></i> اتصل بنا</a>
-                        <a href="https://maps.app.goo.gl/cQcMkU4UgcAsrKpr9?g_st=ac" target="_blank" rel="noopener" class="btn btn-secondary ripple"><i class="fas fa-map-marker-alt"></i> اعرض الموقع</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container about-grid">
-                    <div class="about-text reveal fade-in">
-                        <h3 class="section-subtitle">عن Sweet Palace</h3>
-                        <h2 class="section-title">مذاق الأصالة بلمسة <span class="highlight">عصرية</span></h2>
-                        <p class="section-desc" style="margin-right: 0;">يُعد Sweet Palace من الوجهات المميزة داخل مجمع دار المركبات، حيث يتخصص في تقديم أرقى وألذ أصناف الحلويات والمعجنات التي ترضي جميع الأذواق. نحرص دائماً على اختيار أجود المكونات الطازجة لنضمن لكم تجربة تذوق استثنائية.</p>
-                        <p class="section-desc" style="margin-right: 0; margin-top: 10px;">سواء كنتم تبحثون عن فنجان قهوة غني في الصباح، أو تورتة مصممة خصيصاً لمناسباتكم السعيدة، فإن فريقنا المتخصص متواجد دائماً لتقديم الأفضل بحب واحترافية.</p>
-                        
-                        <div class="feature-tags-grid mt-4" style="justify-content: flex-start;">
-                            <span class="feature-badge hover-lift"><i class="fas fa-star"></i> الحلويات الشرقية</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-cookie-bite"></i> الحلويات الغربية</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-birthday-cake"></i> التورتات</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-mug-hot"></i> المشروبات الساخنة</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-glass-whiskey"></i> المشروبات الباردة</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-gift"></i> الطلبات الخاصة</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-glass-cheers"></i> تجهيز المناسبات</span>
-                            <span class="feature-badge hover-lift"><i class="fas fa-ring"></i> تورتات الزفاف</span>
-                        </div>
-                    </div>
-                    <div class="about-stats reveal slide-up">
-                        <div class="stat-box glow-card" style="border-color: rgba(212, 175, 55, 0.3);">
-                            <i class="fas fa-birthday-cake"></i>
-                            <h3>طازجة</h3>
-                            <p>مخبوزات يومية</p>
-                        </div>
-                        <div class="stat-box glow-card" style="border-color: rgba(212, 175, 55, 0.3);">
-                            <i class="fas fa-gem"></i>
-                            <h3>جودة</h3>
-                            <p>مكونات ممتازة</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section bg-light">
-                <div class="container reveal fade-in">
-                    <h3 class="section-subtitle text-center">خدماتنا</h3>
-                    <h2 class="section-title text-center">تشكيلة Sweet Palace</h2>
-                    <div class="services-grid mt-4">
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-star-and-crescent"></i><h4>حلويات شرقية</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-birthday-cake"></i><h4>تورتات</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-coffee"></i><h4>مشروبات ساخنة</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-cocktail"></i><h4>مشروبات باردة</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-bread-slice"></i><h4>مخبوزات</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-glass-cheers"></i><h4>تجهيز المناسبات</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-ring"></i><h4>تورتات الزفاف</h4></div>
-                        <div class="service-card glow-card hover-lift"><i class="fas fa-gift"></i><h4>الطلبات الخاصة</h4></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container reveal slide-up">
-                    <h3 class="section-subtitle text-center">تصفح اختياراتنا</h3>
-                    <h2 class="section-title text-center">قائمة المنتجات</h2>
-                    <div class="menu-grid mt-4">
-                        <article class="coming-soon-banner glass-card hover-lift" style="grid-column: 1 / -1;">
-                            <div class="banner-icon"><i class="fas fa-book-open"></i></div>
-                            <div class="banner-info">
-                                <h3>المنيو الذكي</h3>
-                                <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة قائمة المنتجات قريبًا</span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section bg-light">
-                <div class="container text-center reveal fade-in">
-                    <h3 class="section-subtitle">لماذا تختارنا</h3>
-                    <h2 class="section-title">لحظات لا تُنسى</h2>
-                    <div class="why-grid mt-4">
-                        <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                            <div class="icon-wrapper"><i class="fas fa-medal"></i></div>
-                            <h4>جودة المكونات</h4>
-                            <p>اختيار دقيق لأفضل المكونات الطبيعية والطازجة يومياً.</p>
-                        </div>
-                        <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                            <div class="icon-wrapper"><i class="fas fa-heart"></i></div>
-                            <h4>مذاق مميز</h4>
-                            <p>وصفات خاصة تضمن لك تجربة تذوق غنية وفريدة.</p>
-                        </div>
-                        <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                            <div class="icon-wrapper"><i class="fas fa-couch"></i></div>
-                            <h4>جلسات مريحة</h4>
-                            <p>أجواء دافئة وهادئة تناسب لقاءات العائلة والأصدقاء.</p>
-                        </div>
-                        <div class="why-card glass-card hover-lift glow-card" tabindex="0">
-                            <div class="icon-wrapper"><i class="fas fa-magic"></i></div>
-                            <h4>تنفيذ الطلبات الخاصة</h4>
-                            <p>نصمم التورتات والحلويات بحسب رغبتك لمناسباتك السعيدة.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="container reveal slide-up">
-                    <h3 class="section-subtitle text-center">معرض الصور</h3>
-                    <h2 class="section-title text-center">عدسة Sweet Palace</h2>
-                    <div class="masonry-grid mt-4">
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/1.jpg" alt="تشكيلة حلويات" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/2.jpg" alt="تورتة فاخرة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/3.jpg" alt="مشروبات ساخنة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/4.jpg" alt="جلسات الكافيه" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/5.jpg" alt="حلويات شرقية" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                        <div class="masonry-item hover-zoom lightbox-trigger"><img src="assets/sweet-palace/6.jpg" alt="مخبوزات طازجة" loading="lazy"><div class="overlay"><i class="fas fa-expand-arrows-alt"></i></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section bg-light">
-                <div class="container reveal slide-up">
-                    <div class="contact-grid">
-                        <div class="info-card glass-card">
-                            <h3 class="section-subtitle">معلومات سريعة</h3>
-                            <h2 class="section-title">تواصل مع <span class="highlight">الفرع</span></h2>
-                            <ul class="contact-list mt-4">
-                                <li class="contact-card"><div class="icon-circle"><i class="fas fa-map-marker-alt"></i></div><div class="info-text"><h4>الموقع</h4><span>داخل مجمع دار المركبات</span></div></li>
-                                <li class="contact-card"><div class="icon-circle"><i class="fas fa-phone-alt"></i></div><div class="info-text"><h4>الهاتف</h4><span dir="ltr">010 321 770 49</span></div></li>
-                                <li class="contact-card"><div class="icon-circle"><i class="fab fa-whatsapp"></i></div><div class="info-text"><h4>واتساب</h4><span dir="ltr">010 321 770 49</span></div></li>
-                                <li class="working-hours-card"><div class="icon-circle"><i class="fas fa-clock"></i></div><div class="info-text"><h4>ساعات العمل</h4><span>11:00 صباحًا إلى 11:00 مساءً</span></div></li>
-                            </ul>
-                        </div>
-                        <div class="map-container glass-card google-maps-card">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3452.923485746356!2d31.32185!3d30.067645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583e58284646bd%3A0xc3b8a3ea3ecfc426!2z2K_Yp9ixINin2YTZhdi52LHZgdin2Ko!5e0!3m2!1sar!2seg!4v1700000000000!5m2!1sar!2seg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section pt-0 bg-light">
-                <div class="container reveal fade-in">
-                    <div class="cta-banner glow-card">
-                        <h2>استمتع بأشهى الحلويات والمشروبات في Sweet Palace.</h2>
-                        <div class="cta-buttons mt-4">
-                            <a href="tel:01032177049" class="btn btn-primary ripple"><i class="fas fa-phone-alt"></i> اتصل الآن</a>
-                            <a href="https://wa.me/201032177049" target="_blank" rel="noopener" class="btn btn-secondary ripple"><i class="fab fa-whatsapp"></i> واتساب</a>
-                            <a href="https://maps.app.goo.gl/cQcMkU4UgcAsrKpr9?g_st=ac" target="_blank" rel="noopener" class="btn btn-outline ripple"><i class="fas fa-map-marked-alt"></i> عرض الموقع</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- OTHER FACILITIES PLACEHOLDERS -->
-        <section id="facilities-list" class="section">
-            <div class="container reveal slide-up">
-                <h3 class="section-subtitle text-center">قريباً</h3>
-                <h2 class="section-title text-center">منشآت أخرى</h2>
-                
-                <div class="placeholders-container mt-4">
-                    <article id="chalets" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-home"></i></div>
-                        <div class="banner-info">
-                            <h3>الشاليهات</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="swimming-pool" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-swimming-pool"></i></div>
-                        <div class="banner-info">
-                            <h3>حمام السباحة</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="restaurants" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-utensils"></i></div>
-                        <div class="banner-info">
-                            <h3>المطاعم</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="cafes" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-coffee"></i></div>
-                        <div class="banner-info">
-                            <h3>الكافيتيريات</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="wedding-halls" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-ring"></i></div>
-                        <div class="banner-info">
-                            <h3>قاعات الأفراح</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="sports" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-futbol"></i></div>
-                        <div class="banner-info">
-                            <h3>الأنشطة الرياضية</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="market" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-shopping-basket"></i></div>
-                        <div class="banner-info">
-                            <h3>الماركت</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-
-                    <article id="photohub" class="coming-soon-banner glass-card hover-lift">
-                        <div class="banner-icon"><i class="fas fa-camera-retro"></i></div>
-                        <div class="banner-info">
-                            <h3>استديو فوتو هاب</h3>
-                            <span class="feature-badge"><i class="fas fa-clock"></i> سيتم إضافة التفاصيل قريباً</span>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer id="contact" class="footer" role="contentinfo">
-        <div class="container footer-grid">
-            <div class="footer-brand">
-                <h2 class="footer-logo">دار المركبات</h2>
-                <h3 class="footer-sublogo">Dar Elmarkabat</h3>
-                <p>الدليل الرقمي الرسمي للمجمع المتكامل.</p>
-                <div class="social-links-component mt-4">
-                    <a href="#" class="social-icon hover-lift" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon hover-lift" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon hover-lift" aria-label="تيك توك"><i class="fab fa-tiktok"></i></a>
-                </div>
-            </div>
-            <div class="footer-links">
-                <h4>روابط سريعة</h4>
-                <ul>
-                    <li><a href="#hero">الرئيسية</a></li>
-                    <li><a href="#quick-access">الخدمات</a></li>
-                    <li><a href="#why-us">مميزاتنا</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h4>أبرز المنشآت</h4>
-                <ul>
-                    <li><a href="#hotel">فندق شاريوت</a></li>
-                    <li><a href="#sweet-palace">Sweet Palace</a></li>
-                    <li><a href="#sports">الأنشطة الرياضية</a></li>
-                </ul>
-            </div>
-            <div class="footer-newsletter">
-                <h4>القائمة البريدية</h4>
-                <p>اشترك ليصلك أحدث العروض والفعاليات.</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault()">
-                    <input type="email" placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" required>
-                    <button type="submit" class="btn btn-primary ripple" aria-label="اشتراك"><i class="fas fa-paper-plane"></i></button>
-                </form>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 دار المركبات. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
-
-    <!-- GLOBAL FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/201070322434" class="whatsapp-global entrance" target="_blank" rel="noopener" aria-label="تواصل مع دار المركبات عبر واتساب">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <!-- Advanced Lightbox Component -->
-    <div id="advanced-lightbox" class="lightbox gallery-modal" aria-modal="true" role="dialog">
-        <span class="lightbox-close" onclick="closeGalleryLightbox()">&times;</span>
-        <div class="lightbox-controls">
-            <button class="lightbox-prev" onclick="changeLightboxImage(-1)" aria-label="السابق"><i class="fas fa-chevron-right"></i></button>
-            <div class="lightbox-image-container">
-                <img class="lightbox-content" id="lightbox-main-img" alt="عنصر المعرض">
-                <div id="lightbox-caption" class="lightbox-caption"></div>
-                <div id="lightbox-counter" class="lightbox-counter"></div>
-            </div>
-            <button class="lightbox-next" onclick="changeLightboxImage(1)" aria-label="التالي"><i class="fas fa-chevron-left"></i></button>
+    <!-- Mobile Fullscreen Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-link">الرئيسية</a>
+            <a href="#directory" class="mobile-link">استكشف</a>
+            <a href="#hotel" class="mobile-link">المرافق</a>
         </div>
     </div>
 
-    <script src="script.js" defer></script>
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-bg">
+            <img src="./assets/hero/hero-bg.jpg" alt="دار المركبات" loading="lazy">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title reveal-text">مرحباً بكم<br>في دار المركبات</h1>
+            <p class="hero-subtitle reveal-text delay-1">كل ما تحتاجه في مكان واحد</p>
+        </div>
+        <a href="#experience-intro" class="scroll-indicator" aria-label="استكشف">
+            <span class="scroll-text">استكشف دار المركبات</span>
+            <i class="fas fa-chevron-down scroll-arrow"></i>
+        </a>
+    </header>
+
+    <!-- Cinematic Transition -->
+    <section id="experience-intro" class="cinematic-transition">
+        <div class="transition-content reveal-up">
+            <h2 class="huge-text">أكثر من مجرد مكان</h2>
+            <h3 class="gold-text">وجهة متكاملة</h3>
+        </div>
+    </section>
+
+    <!-- Directory Section -->
+    <section id="directory" class="directory-section section-padding">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-label">الوجهات</span>
+                <h2 class="section-title">استكشف دار المركبات</h2>
+                <p class="section-desc">كل تجربة تبدأ بخطوة</p>
+            </div>
+            
+            <!-- Cards will be injected here via script.js -->
+            <div class="editorial-grid" id="directory-grid"></div>
+        </div>
+    </section>
+
+    <!-- Full Facility Sections will be injected here via script.js -->
+    <div id="facility-sections-container"></div>
+
+    <!-- Global WhatsApp -->
+    <a href="https://wa.me/201070322434" class="global-whatsapp" target="_blank" aria-label="تواصل مع خدمة العملاء">
+        <div class="whatsapp-ring"></div>
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Advanced Lightbox / Menu Viewer -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-toolbar">
+            <div class="lightbox-counter"><span id="lb-current">1</span> / <span id="lb-total">1</span></div>
+            <button id="lb-close" class="icon-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <button id="lb-prev" class="lightbox-nav prev"><i class="fas fa-chevron-right"></i></button>
+        <div class="lightbox-content">
+            <img id="lb-image" src="" alt="Gallery Image">
+        </div>
+        <button id="lb-next" class="lightbox-nav next"><i class="fas fa-chevron-left"></i></button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

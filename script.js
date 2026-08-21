@@ -1,381 +1,239 @@
-/* script.js */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* ==========================================================================
+       1. PRELOADER & THEME MANAGEMENT
+       ========================================================================== */
+    const preloader = document.getElementById('preloader');
+    const hero = document.querySelector('.hero');
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    const themeIcon = themeToggle.querySelector('i');
     
-    // 1. Performance: Loader removal
-    const loader = document.getElementById('loader');
-    window.addEventListener('load', () => {
-        loader.style.opacity = '0';
+    setTimeout(() => {
+        preloader.style.opacity = '0';
         setTimeout(() => {
-            loader.style.display = 'none';
-        }, 400);
-    });
+            preloader.style.display = 'none';
+            hero.classList.add('loaded');
+            document.querySelectorAll('.hero .reveal-text').forEach(el => el.classList.add('active'));
+        }, 600);
+    }, 1500);
 
-    // 2. Premium Theme Toggle Logic (Dark Mode)
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeIcon = themeToggleBtn.querySelector('i');
-
-    // Initialize icon correctly based on class set in <head>
-    if (document.documentElement.classList.contains('dark-theme')) {
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
+    function setTheme(themeName) {
+        htmlElement.setAttribute('data-theme', themeName);
+        localStorage.setItem('dar_theme', themeName);
+        themeIcon.className = themeName === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
 
-    function setTheme(isDark) {
-        // Add transition class for smooth 400ms fade without impacting initial load
-        document.documentElement.classList.add('theme-transition');
-        
-        if (isDark) {
-            document.documentElement.classList.add('dark-theme');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark-theme');
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-            localStorage.setItem('theme', 'light');
-        }
-
-        // Remove transition class after animation completes
-        setTimeout(() => {
-            document.documentElement.classList.remove('theme-transition');
-        }, 400);
+    const savedTheme = localStorage.getItem('dar_theme');
+    if (savedTheme) {
+        setTheme(savedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        setTheme('light');
     }
 
-    themeToggleBtn.addEventListener('click', () => {
-        const isDark = !document.documentElement.classList.contains('dark-theme');
-        setTheme(isDark);
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = htmlElement.getAttribute('data-theme');
+        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
     });
 
-
-    // 3. Navigation: Scroll Progress & Navbar Shrink
-    const scrollProgress = document.getElementById('scroll-progress');
+    /* ==========================================================================
+       2. NAVIGATION & MOBILE MENU
+       ========================================================================== */
     const navbar = document.getElementById('navbar');
-    
-    // Throttle scroll event for 60fps performance
-    let isScrolling = false;
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
     window.addEventListener('scroll', () => {
-        if (!isScrolling) {
-            window.requestAnimationFrame(() => {
-                handleScroll();
-                isScrolling = false;
-            });
-            isScrolling = true;
-        }
-    });
+        if (window.scrollY > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+    }, { passive: true });
 
-    function handleScroll() {
-        let scrollTop = window.scrollY;
-        
-        // Scroll Progress Bar
-        if (scrollProgress) {
-            let docHeight = document.body.scrollHeight - window.innerHeight;
-            let scrollPercent = (scrollTop / docHeight) * 100;
-            scrollProgress.style.width = scrollPercent + '%';
-        }
-
-        // Navbar Glass Shrink
-        if (scrollTop > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-        
-        // Active Link Highlighting
-        updateActiveNav(scrollTop);
+    function toggleMobileMenu() {
+        mobileMenu.classList.toggle('active');
+        const icon = mobileMenuBtn.querySelector('i');
+        icon.className = mobileMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     }
 
-    // 4. Navigation: Mobile Hamburger Menu
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-            hamburger.setAttribute('aria-expanded', !isExpanded);
-            navLinks.classList.toggle('active');
-            
-            let icon = hamburger.querySelector('i');
-            if(navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+    mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', toggleMobileMenu));
+
+    /* ==========================================================================
+       3. DATA-DRIVEN ARCHITECTURE RENDERER
+       ========================================================================== */
+    const gridContainer = document.getElementById('directory-grid');
+    const sectionsContainer = document.getElementById('facility-sections-container');
+
+    function renderArchitecture() {
+        facilitiesData.forEach((facility, index) => {
+            // 1. Generate Directory Card
+            const delayClass = index % 3 === 1 ? 'delay-1' : index % 3 === 2 ? 'delay-2' : '';
+            const cardHTML = `
+                <a href="${facility.fullDesc ? `#${facility.id}` : '#'}" class="grid-card ${facility.gridSize} reveal-up ${delayClass}">
+                    <img src="${facility.heroImg}" alt="${facility.name}" loading="lazy">
+                    <div class="card-overlay">
+                        <span class="card-tag">${facility.category}</span>
+                        <h3 class="card-title">${facility.name}</h3>
+                        ${facility.shortDesc ? `<p class="card-desc">${facility.shortDesc}</p>` : ''}
+                        ${facility.fullDesc ? `<div class="card-cta">اكتشف <i class="fas fa-arrow-left"></i></div>` : ''}
+                    </div>
+                </a>
+            `;
+            gridContainer.insertAdjacentHTML('beforeend', cardHTML);
+
+            // 2. Generate Full Section (If Data Exists)
+            if (facility.fullDesc) {
+                const isReverse = index % 2 !== 0 ? 'reverse-layout bg-alternate' : '';
+                
+                const amenitiesHTML = facility.amenities.map(item => 
+                    `<li><i class="${item.icon}"></i> ${item.text}</li>`
+                ).join('');
+
+                let actionsHTML = '';
+                if (facility.contact.phone) actionsHTML += `<a href="tel:${facility.contact.phone}" class="btn btn-outline"><i class="fas fa-phone"></i> ${facility.contact.phone}</a>`;
+                if (facility.contact.whatsapp) actionsHTML += `<a href="https://wa.me/${facility.contact.whatsapp}" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> تواصل معنا</a>`;
+                if (facility.menu && facility.menu.length > 0) actionsHTML += `<button class="btn btn-text open-menu-btn" data-menu="${facility.id}"><i class="fas fa-book-open"></i> عرض المنيو</button>`;
+                if (facility.locationUrl) actionsHTML += `<a href="${facility.locationUrl}" target="_blank" class="btn btn-text"><i class="fas fa-map-marker-alt"></i> الموقع</a>`;
+
+                const thumbsHTML = facility.galleryThumbs.map(thumb => 
+                    `<img src="${thumb}" alt="Gallery" class="lightbox-trigger" data-gallery="${facility.id}" loading="lazy">`
+                ).join('');
+
+                const sectionHTML = `
+                    <section id="${facility.id}" class="facility-showcase section-padding ${isReverse}">
+                        <div class="container facility-layout">
+                            <div class="facility-info reveal-up">
+                                <span class="facility-category">${facility.category}</span>
+                                <h2 class="facility-name">${facility.name}</h2>
+                                ${facility.nameEn ? `<h3 class="facility-name-en">${facility.nameEn}</h3>` : ''}
+                                <p class="facility-text">${facility.fullDesc}</p>
+                                <ul class="amenities-list">${amenitiesHTML}</ul>
+                                <div class="action-group">${actionsHTML}</div>
+                            </div>
+                            <div class="facility-gallery reveal-up delay-1">
+                                <div class="gallery-hero">
+                                    <img src="${facility.galleryHero}" alt="${facility.name}" class="lightbox-trigger" data-gallery="${facility.id}" loading="lazy">
+                                </div>
+                                <div class="gallery-thumbnails">${thumbsHTML}</div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+                sectionsContainer.insertAdjacentHTML('beforeend', sectionHTML);
             }
         });
-
-        // Close menu on link click (Touch Friendly)
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-                hamburger.querySelector('i').classList.replace('fa-times', 'fa-bars');
-            });
-        });
     }
 
-    // 5. Hero Parallax (Optimized)
-    const heroBg = document.querySelector('.hero-bg');
-    
-    window.addEventListener('scroll', () => {
-        let scroll = window.pageYOffset;
-        if(heroBg && scroll < window.innerHeight) {
-            heroBg.style.transform = `translateY(${scroll * 0.35}px)`;
-        }
-    });
+    renderArchitecture(); // Build DOM before initiating observers
 
-    // 6. Micro Animations: Scroll Reveal using Intersection Observer
-    const reveals = document.querySelectorAll('.reveal');
-    const revealOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-    };
-
+    /* ==========================================================================
+       4. SCROLL REVEAL (Intersection Observer)
+       ========================================================================== */
+    const revealElements = document.querySelectorAll('.reveal-up, .reveal-text:not(.hero-title):not(.hero-subtitle)');
     const revealObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Run once for performance
-            }
-        });
-    }, revealOptions);
-
-    reveals.forEach(reveal => revealObserver.observe(reveal));
-
-    // 7. Statistics: Animated Counters
-    const counters = document.querySelectorAll('.counter');
-    let counted = false;
-    
-    const counterObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !counted) {
-                counters.forEach(counter => {
-                    const updateCount = () => {
-                        const target = +counter.getAttribute('data-target');
-                        const count = +counter.innerText;
-                        // Calculate increment for smooth animation
-                        const speed = 150; 
-                        const inc = target / speed;
-
-                        if (count < target) {
-                            counter.innerText = Math.ceil(count + inc);
-                            setTimeout(updateCount, 15);
-                        } else {
-                            counter.innerText = target;
-                        }
-                    };
-                    updateCount();
-                });
-                counted = true;
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
 
-    const statsSection = document.querySelector('.about-stats');
-    if(statsSection) counterObserver.observe(statsSection);
+    revealElements.forEach(el => revealObserver.observe(el));
 
-    // 8. Micro Animations: Mouse Hover Glow on Cards
-    document.addEventListener('mousemove', e => {
-        document.querySelectorAll('.glow-card').forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
+    /* ==========================================================================
+       5. ADVANCED LIGHTBOX & MENU VIEWER
+       ========================================================================== */
+    const lightbox = document.getElementById('lightbox');
+    const lbImage = document.getElementById('lb-image');
+    const lbClose = document.getElementById('lb-close');
+    const lbPrev = document.getElementById('lb-prev');
+    const lbNext = document.getElementById('lb-next');
+    const lbCurrent = document.getElementById('lb-current');
+    const lbTotal = document.getElementById('lb-total');
+    
+    let currentGallery = [];
+    let currentIndex = 0;
+
+    // Gallery Triggers
+    document.querySelectorAll('.lightbox-trigger').forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            const galleryName = trigger.getAttribute('data-gallery');
+            const galleryNodes = document.querySelectorAll(`.lightbox-trigger[data-gallery="${galleryName}"]`);
+            currentGallery = Array.from(galleryNodes).map(node => node.src);
+            currentIndex = currentGallery.indexOf(trigger.src);
+            openLightbox();
         });
     });
 
-    // 9. Micro Animations: Ripple Effect (Touch and Click)
-    document.addEventListener('click', function(e) {
-        // Find closest element with ripple classes
-        const btn = e.target.closest('.ripple, .ripple-container');
-        if (btn) {
-            const rect = btn.getBoundingClientRect();
-            let x = e.clientX - rect.left;
-            let y = e.clientY - rect.top;
-            
-            let ripples = document.createElement('span');
-            ripples.classList.add('ripple-span');
-            ripples.style.left = x + 'px';
-            ripples.style.top = y + 'px';
-            
-            btn.appendChild(ripples);
-            setTimeout(() => ripples.remove(), 600);
-        }
-    });
-
-    // 10. Navigation: Smooth Scrolling for Anchor Links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if(targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            
-            if (targetElement) {
-                e.preventDefault();
-                // Account for fixed navbar height
-                const navHeight = document.getElementById('navbar').offsetHeight;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - navHeight - 20;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-                
-                // Add temporary highlight to the targeted section (especially for coming soon cards)
-                if(targetElement.classList.contains('coming-soon-banner')) {
-                    targetElement.style.transition = "background-color 0.5s ease";
-                    targetElement.style.backgroundColor = "rgba(212, 175, 55, 0.1)"; // Gold flash
-                    setTimeout(() => {
-                        // Inherit current theme background dynamically
-                        targetElement.style.backgroundColor = ""; 
-                    }, 1000);
-                }
+    // Menu Triggers
+    document.querySelectorAll('.open-menu-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const facilityId = btn.getAttribute('data-menu');
+            const facility = facilitiesData.find(f => f.id === facilityId);
+            if (facility && facility.menu.length > 0) {
+                currentGallery = facility.menu;
+                currentIndex = 0;
+                openLightbox();
             }
         });
     });
 
-    // Navigation: Scroll Spy Logic
-    const sections = document.querySelectorAll('section, header, .facility-master-section');
-    const navItems = document.querySelectorAll('.nav-links a');
-
-    function updateActiveNav(scrollY) {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            const navHeight = document.getElementById('navbar').offsetHeight;
-            
-            if (scrollY >= (sectionTop - navHeight - 100)) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navItems.forEach(a => {
-            a.classList.remove('active');
-            // Check if link href ends with the current ID
-            if (current && a.getAttribute('href') === `#${current}`) {
-                a.classList.add('active');
-            }
-        });
+    function openLightbox() {
+        if (currentGallery.length === 0) return;
+        updateLightboxImage();
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 
-    // Initialize Advanced Image System
-    initGallerySystem();
-});
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        setTimeout(() => { lbImage.src = ''; }, 300);
+    }
 
-// --- ADVANCED IMAGE SYSTEM (Slider, Lazy Load, Touch, Keyboard) ---
+    function updateLightboxImage() {
+        lbImage.src = currentGallery[currentIndex];
+        lbCurrent.textContent = currentIndex + 1;
+        lbTotal.textContent = currentGallery.length;
+        lbPrev.style.visibility = currentGallery.length > 1 ? 'visible' : 'hidden';
+        lbNext.style.visibility = currentGallery.length > 1 ? 'visible' : 'hidden';
+    }
 
-let currentGalleryIndex = 0;
-let galleryItems = [];
-let startX = 0;
-let endX = 0;
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+        updateLightboxImage();
+    }
 
-function initGallerySystem() {
-    const triggers = document.querySelectorAll('.lightbox-trigger');
-    galleryItems = [];
-    
-    triggers.forEach((trigger, index) => {
-        const img = trigger.querySelector('img');
-        if (img) {
-            galleryItems.push({
-                src: img.src,
-                caption: img.alt || ''
-            });
-            
-            // Attach click handler dynamically
-            trigger.addEventListener('click', () => {
-                openGalleryLightbox(index);
-            });
-        }
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % currentGallery.length;
+        updateLightboxImage();
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+    lbNext.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') prevImage();
+        if (e.key === 'ArrowLeft') nextImage();
     });
-}
 
-window.openGalleryLightbox = function(index) {
-    if(galleryItems.length === 0) initGallerySystem();
+    let touchStartX = 0;
+    let touchEndX = 0;
     
-    currentGalleryIndex = index;
-    const lightbox = document.getElementById("advanced-lightbox");
-    updateLightboxContent();
+    lightbox.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
     
-    lightbox.style.display = "flex";
-    document.body.style.overflow = "hidden";
-};
-
-window.closeGalleryLightbox = function() {
-    document.getElementById("advanced-lightbox").style.display = "none";
-    document.body.style.overflow = "auto";
-};
-
-window.changeLightboxImage = function(direction) {
-    // In RTL, visual direction is flipped
-    currentGalleryIndex += direction;
-    
-    if (currentGalleryIndex >= galleryItems.length) {
-        currentGalleryIndex = 0; // Loop to start
-    } else if (currentGalleryIndex < 0) {
-        currentGalleryIndex = galleryItems.length - 1; // Loop to end
-    }
-    
-    updateLightboxContent();
-};
-
-function updateLightboxContent() {
-    if(!galleryItems[currentGalleryIndex]) return;
-    
-    const imgElement = document.getElementById("lightbox-main-img");
-    const captionElement = document.getElementById("lightbox-caption");
-    const counterElement = document.getElementById("lightbox-counter");
-    
-    // Add brief animation reset for smooth transition
-    imgElement.style.animation = 'none';
-    imgElement.offsetHeight; /* trigger reflow */
-    imgElement.style.animation = null;
-    
-    imgElement.src = galleryItems[currentGalleryIndex].src;
-    imgElement.alt = galleryItems[currentGalleryIndex].caption;
-    captionElement.innerText = galleryItems[currentGalleryIndex].caption;
-    
-    // Counter in RTL format
-    counterElement.innerText = `${currentGalleryIndex + 1} / ${galleryItems.length}`;
-}
-
-// Touch Gestures for Slider
-const lightboxElement = document.getElementById('advanced-lightbox');
-if (lightboxElement) {
-    lightboxElement.addEventListener('touchstart', e => {
-        startX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    lightboxElement.addEventListener('touchend', e => {
-        endX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, {passive: true});
-}
-
-function handleSwipe() {
-    const threshold = 50; 
-    if (endX < startX - threshold) {
-        changeLightboxImage(1); // Swipe left
-    } else if (endX > startX + threshold) {
-        changeLightboxImage(-1); // Swipe right
-    }
-}
-
-// Keyboard Navigation Support
-document.addEventListener('keydown', function(event) {
-    const lightbox = document.getElementById("advanced-lightbox");
-    if (lightbox && lightbox.style.display === "flex") {
-        if (event.key === "Escape") {
-            window.closeGalleryLightbox();
-        } else if (event.key === "ArrowLeft") {
-            window.changeLightboxImage(1);
-        } else if (event.key === "ArrowRight") {
-            window.changeLightboxImage(-1);
-        }
-    }
+    lightbox.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchEndX < touchStartX - 50) nextImage();
+        if (touchEndX > touchStartX + 50) prevImage();
+    }, { passive: true });
 });
