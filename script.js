@@ -93,7 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 let actionsHTML = '';
                 if (facility.contact.phone) actionsHTML += `<a href="tel:${facility.contact.phone}" class="btn btn-outline"><i class="fas fa-phone"></i> ${facility.contact.phone}</a>`;
                 if (facility.contact.whatsapp) actionsHTML += `<a href="https://wa.me/${facility.contact.whatsapp}" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> تواصل معنا</a>`;
-                if (facility.menu && facility.menu.length > 0) actionsHTML += `<button class="btn btn-text open-menu-btn" data-menu="${facility.id}"><i class="fas fa-book-open"></i> عرض المنيو</button>`;
+                if (facility.menu && facility.menu.length > 0) {
+                    const btnText = facility.menuBtnText || 'عرض المنيو';
+                    const btnIcon = facility.menuBtnIcon || 'fas fa-book-open';
+                    actionsHTML += `<button class="btn btn-text open-menu-btn" data-menu="${facility.id}"><i class="${btnIcon}"></i> ${btnText}</button>`;
+                }
                 if (facility.locationUrl) actionsHTML += `<a href="${facility.locationUrl}" target="_blank" class="btn btn-text"><i class="fas fa-map-marker-alt"></i> الموقع</a>`;
 
                 const thumbsHTML = facility.galleryThumbs.map(thumb => 
