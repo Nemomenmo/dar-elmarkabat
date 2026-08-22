@@ -264,9 +264,106 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    closeContactBtn.addEventListener('click', closeContact);
+    if (closeContactBtn) closeContactBtn.addEventListener('click', closeContact);
     
-    contactModal.addEventListener('click', (e) => {
-        if (e.target === contactModal) closeContact();
+    if (contactModal) {
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) closeContact();
+        });
+    }
+    
+    /* ==========================================================================
+       7. PROMO STATUS SLIDER LOGIC
+       ========================================================================== */
+    const sliders = document.querySelectorAll('.status-slider');
+    
+    sliders.forEach(slider => {
+        const statusImages = slider.querySelectorAll('.status-img');
+        const statusFills = slider.querySelectorAll('.status-fill');
+        let currentStatus = 0;
+        const statusDuration = 4000; // 4 seconds per image
+
+        if (statusImages.length > 0 && statusFills.length > 0) {
+            function updateStatus() {
+                // Reset all states for this specific slider
+                statusImages.forEach((img, index) => {
+                    img.classList.remove('active');
+                    statusFills[index].classList.remove('animating', 'completed');
+                    if (index < currentStatus) {
+                        statusFills[index].classList.add('completed');
+                    }
+                });
+
+                // Activate current status
+                statusImages[currentStatus].classList.add('active');
+                statusFills[currentStatus].classList.add('animating');
+
+                // Trigger next loop
+                setTimeout(() => {
+                    currentStatus = (currentStatus + 1) % statusImages.length;
+                    updateStatus();
+                }, statusDuration);
+            }
+
+            // Initialize the first loop
+            updateStatus();
+        }
     });
+
+    /* ==========================================================================
+       8. SMART CONTACT ROUTER (PC VS MOBILE DETECTION)
+       ========================================================================== */
+    const actionBtns = document.querySelectorAll('.action-contact-btn');
+    const actionSheet = document.getElementById('action-sheet-modal');
+    const closeActionSheet = document.querySelector('.close-action-sheet');
+    const actionCall = document.getElementById('action-call');
+    const actionWa = document.getElementById('action-wa');
+
+    actionBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const phone = btn.getAttribute('data-phone');
+            const wa = btn.getAttribute('data-whatsapp');
+            
+            // Check if device is a mobile phone/tablet
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (!isMobile) {
+                // If PC, route directly to WhatsApp Web
+                window.open(`https://wa.me/${wa}`, '_blank');
+            } else {
+                // If Mobile, show choice Action Sheet
+                actionCall.href = `tel:${phone}`;
+                actionWa.href = `https://wa.me/${wa}`;
+                actionSheet.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    if (closeActionSheet) {
+        closeActionSheet.addEventListener('click', () => {
+            actionSheet.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+
+    if (actionSheet) {
+        actionSheet.addEventListener('click', (e) => {
+            if (e.target === actionSheet) {
+                actionSheet.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Close Action Sheet after making a selection
+    if (actionCall && actionWa) {
+        [actionCall, actionWa].forEach(el => {
+            el.addEventListener('click', () => {
+                actionSheet.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
 });

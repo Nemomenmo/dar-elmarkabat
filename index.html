@@ -66,27 +66,49 @@
         </a>
     </header>
 
-   <!-- Exclusive Promo Banner -->
+    <!-- Exclusive Promo Banners (Side-by-Side Grid) -->
     <section id="promotions" class="promo-section section-padding bg-alternate">
-        <div class="container promo-container reveal-up">
-            <!-- The text content you accidentally deleted -->
-            <div class="promo-content">
-                <span class="promo-badge"><i class="fas fa-star"></i> عرض حصري</span>
-                <h2 class="gold-text">احتفالات المولد النبوي الشريف</h2>
-                <p>تشكيلة فاخرة من حلاوة المولد متوفرة الآن في Sweet Palace. شارك أحبابك فرحة الاحتفال بأرقى النكهات داخل دار المركبات.</p>
-                <a href="#sweet-palace" class="btn btn-primary">اكتشف Sweet Palace</a>
-            </div>
-            
-            <!-- Your new 3-image gallery -->
-            <div class="promo-gallery">
-                <!-- Main large image -->
-                <img src="./assets/promo/1.jpg" alt="عرض المولد 1" class="promo-img main-promo lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+        <div class="container reveal-up">
+            <div class="promotions-grid">
                 
-                <!-- Two smaller thumbnails -->
-                <div class="promo-thumbs">
-                    <img src="./assets/promo/2.jpg" alt="عرض المولد 2" class="promo-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
-                    <img src="./assets/promo/3.jpg" alt="عرض المولد 3" class="promo-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                <!-- Promo 1: Moulid (With Status Slider) -->
+                <div class="promo-card">
+                    <div class="status-slider">
+                        <!-- Status Progress Bars -->
+                        <div class="status-bars">
+                            <div class="status-bar"><div class="status-fill"></div></div>
+                            <div class="status-bar"><div class="status-fill"></div></div>
+                            <div class="status-bar"><div class="status-fill"></div></div>
+                        </div>
+                        <!-- Status Images -->
+                        <div class="status-images">
+                            <img src="./assets/promo/1.jpg" alt="عرض 1" class="status-img active lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                            <img src="./assets/promo/2.jpg" alt="عرض 2" class="status-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                            <img src="./assets/promo/3.jpg" alt="عرض 3" class="status-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
+                        </div>
+                    </div>
+                    <div class="promo-content">
+                        <span class="promo-badge"><i class="fas fa-star"></i> عرض حصري</span>
+                        <h2 class="gold-text">احتفالات المولد النبوي</h2>
+                        <p>تشكيلة فاخرة من حلاوة المولد متوفرة الآن في Sweet Palace. شارك أحبابك فرحة الاحتفال بأرقى النكهات.</p>
+                        <a href="#sweet-palace" class="btn btn-primary">اكتشف Sweet Palace</a>
+                    </div>
                 </div>
+
+                <!-- Promo 2: Chalets (Static Image) -->
+                <div class="promo-card">
+                    <div class="promo-image-wrapper">
+                        <img src="./assets/promo/sokhna.jpg" alt="قرية اللؤلؤة والسخنة" class="promo-img" loading="lazy">
+                    </div>
+                    <div class="promo-content">
+                        <span class="promo-badge"><i class="fas fa-water"></i> حجوزات الصيف</span>
+                        <h2 class="gold-text">قرية اللؤلؤة والسخنة</h2>
+                        <p>بادر بحجز شاليهك الآن واستمتع بأجمل الأوقات العائلية على البحر مباشرة مع خدماتنا الفندقية المتكاملة.</p>
+                        <!-- Dynamic Smart Button -->
+                        <button class="btn btn-primary action-contact-btn" data-phone="+201022006906" data-whatsapp="201022006906" dir="ltr"><i class="fas fa-phone"></i> +20 102 200 6906</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -161,6 +183,20 @@
                     <h4>مكتب الأنشطة الرياضية</h4>
                     <a href="tel:+201070322434" class="contact-link" dir="ltr">+20 107 032 2434</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Sheet Modal (Contact Choice for Mobile) -->
+    <div id="action-sheet-modal" class="glass-modal">
+        <div class="glass-modal-content mini-modal">
+            <div class="modal-header">
+                <h3>اختر وسيلة التواصل</h3>
+                <button class="icon-btn close-action-sheet"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="action-sheet-options">
+                <a href="#" id="action-call" class="btn btn-outline"><i class="fas fa-phone"></i> اتصال هاتفي</a>
+                <a href="#" id="action-wa" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> واتساب</a>
             </div>
         </div>
     </div>
