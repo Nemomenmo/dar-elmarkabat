@@ -20,8 +20,8 @@ const facilitiesData = [
             { icon: "fas fa-ring", text: "غرف للعرسان وتجهيز العرائس" }
         ],
         contact: {
-            phone: "+201022006906",
-            whatsapp: "201022006906"
+            phone: "01022006906",
+            whatsapp: "01022006906"
         },
         locationUrl: "https://maps.app.goo.gl/cQcMkU4UgcAsrKpr9?g_st=ac"
     },
@@ -46,7 +46,7 @@ const facilitiesData = [
         ],
         contact: {
             phone: "01032177049",
-            whatsapp: "201032177049"
+            whatsapp: "01032177049"
         },
         locationUrl: null
     },
@@ -62,7 +62,26 @@ const facilitiesData = [
         gridSize: "medium",
         category: "استجمام",
         name: "الشاليهات",
-        heroImg: "./assets/chalets/hero.jpg"
+        nameEn: "Chalets",
+        shortDesc: "ملاذ عائلي هادئ للاستجمام",
+        fullDesc: "وجهتك المثالية لقضاء عطلة عائلية ممتعة في أجواء من الهدوء التام. وتوفر لك ولعائلتك مساحة راقية للراحة والابتعاد عن صخب الحياة، مع تصميم يضمن راحتكم المطلقة.",
+        heroImg: "./assets/chalets/hero.jpg",
+        galleryHero: "./assets/chalets/1.jpg",
+        galleryThumbs: ["./assets/chalets/2.jpg", "./assets/chalets/3.jpg"],
+        menu: [], 
+        amenities: [
+            { icon: "fas fa-users", text: "شاليهات عائلية (تتسع من 4 إلى 6 أفراد)" },
+            { icon: "fas fa-swimming-pool", text: "إطلالة مباشرة على المسبح" },
+            { icon: "fas fa-snowflake", text: "مكيفة بالكامل" },
+            { icon: "fas fa-tv", text: "شاشات عرض LED" },
+            { icon: "fas fa-bath", text: "حمام خاص مجهز (بانيو)" },
+            { icon: "fas fa-cocktail", text: "ميني بار" }
+        ],
+        contact: {
+            phone: "01022006906",
+            whatsapp: "01022006906"
+        },
+        locationUrl: null
     },
     {
         id: "swimming-pool",
