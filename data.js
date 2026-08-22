@@ -50,12 +50,40 @@ const facilitiesData = [
         },
         locationUrl: null
     },
-    {
-        id: "restaurants",
+   {
+        id: "golden-restaurant",
         gridSize: "medium",
-        category: "الطعام",
-        name: "المطاعم والكافيتيريات",
-        heroImg: "./assets/restaurants/hero.jpg"
+        category: "طعام فاخر",
+        name: "المطعم الذهبي",
+        nameEn: "Golden Restaurant",
+        shortDesc: "أشهى المأكولات وتجربة طعام راقية (VIP)",
+        fullDesc: "استمتع بتجربة طعام استثنائية في المطعم الذهبي، حيث نقدم قائمة متنوعة ترضي جميع الأذواق. بدءاً من الإفطار الشهي، مروراً بالبيتزا والكريبات، وصولاً إلى المشويات والمأكولات الشرقية والغربية والحلويات، كل ذلك في أجواء راقية تناسب العائلات وكبار الزوار (VIP).",
+        heroImg: "./assets/golden-restaurant/hero.jpg",
+        galleryHero: "./assets/golden-restaurant/1.jpg",
+        galleryThumbs: ["./assets/golden-restaurant/2.jpg", "./assets/golden-restaurant/3.jpg"],
+        menu: [
+            "./assets/golden-restaurant/menu/1.jpg",
+            "./assets/golden-restaurant/menu/2.jpg",
+            "./assets/golden-restaurant/menu/3.jpg",
+            "./assets/golden-restaurant/menu/4.jpg",
+            "./assets/golden-restaurant/menu/5.jpg",
+            "./assets/golden-restaurant/menu/6.jpg",
+            "./assets/golden-restaurant/menu/7.jpg",
+            "./assets/golden-restaurant/menu/8.jpg",
+            "./assets/golden-restaurant/menu/9.jpg"
+        ],
+        amenities: [
+            { icon: "fas fa-pizza-slice", text: "بيتزا، كريبات، ومأكولات شرقية وغربية" },
+            { icon: "fas fa-fire", text: "مشويات طازجة وإفطار مميز" },
+            { icon: "fas fa-ice-cream", text: "تشكيلة من الحلويات" },
+            { icon: "fas fa-crown", text: "قاعات طعام راقية (VIP Dining)" },
+            { icon: "fas fa-clock", text: "9:00 صباحاً — 10:00 مساءً" }
+        ],
+        contact: {
+            phone: "0223428242",
+            whatsapp: "201070322434"
+        },
+        locationUrl: null
     },
     {
         id: "chalets",
