@@ -116,7 +116,65 @@ const facilitiesData = [
         gridSize: "medium",
         category: "ترفيه",
         name: "حمام السباحة",
-        heroImg: "./assets/swimming-pool/hero.jpg"
+        nameEn: "Swimming Pool",
+        shortDesc: "أوقات ممتعة ومنعشة لجميع أفراد الأسرة",
+        fullDesc: "ملاذك المثالي للترفيه والانتعاش. يتميز حمام السباحة بتصميم يناسب الجميع مع أعماق متدرجة تبدأ من 80 سم وحتى 4 أمتار. تذكرة الفترة الحرة موحدة وتمنحك ميزة الدخول إلى الدار والاستمتاع بالمسبح طوال الفترة المقررة لتجربة عائلية متكاملة.",
+        heroImg: "./assets/swimming-pool/hero.jpg",
+        galleryHero: "./assets/swimming-pool/1.jpg",
+        galleryThumbs: ["./assets/swimming-pool/2.jpg", "./assets/swimming-pool/3.jpg"],
+        menu: [], 
+        amenities: [
+            { icon: "fas fa-clock", text: "الفترة الحرة: من 10 صباحاً حتى 4 عصراً" },
+            { icon: "fas fa-ticket-alt", text: "تذكرة موحدة (تشمل دخول الدار ونزول المسبح)" },
+            { icon: "fas fa-money-bill-wave", text: "الأيام العادية: 170ج (فوق 6 سنوات) | 110ج (تحت 6 سنوات)" },
+            { icon: "fas fa-calendar-star", text: "العطلات والأعياد: 190ج (فوق 6 سنوات) | 115ج (تحت 6 سنوات)" },
+            { icon: "fas fa-water", text: "أعماق متدرجة تناسب الجميع (من 80 سم إلى 4 أمتار)" }
+        ],
+        contact: {
+            phone: "0223428242",
+            whatsapp: "201070322434"
+        },
+        locationUrl: null
+    },
+    {
+        id: "events-office",
+        gridSize: "large",
+        category: "مناسبات",
+        name: "مكتب الحفلات والقاعات",
+        nameEn: "Wedding & Event Halls",
+        shortDesc: "قاعات فاخرة لتخليد أجمل ذكرياتك",
+        fullDesc: "نصنع لك لحظات لا تُنسى في أرقى القاعات مع باقات متكاملة:<br><br><strong>باقة الماسة (Open Air) ونفرتاري (مغلقة ومكيفة):</strong><br>• السعة: 100 إلى 225 فرد (بـ 12,000 جنيه).<br>• تشمل: تصوير فيديو، كوشة، دانس فلور، دي جي، شاشات عرض، ليزر، وشو شربات.<br><br><strong>باقات قاعة سفن سكاي 7 Sky الأسطورية:</strong><br>• 200 فرد (24,000ج) | 300 فرد (26,000ج) | 400 فرد (29,000ج) | 500 فرد (32,000ج) | 600 فرد (35,000ج).<br>• تشمل: سويت هدية لتجهيز العروسة، فيديو 2 كاميرا وميكسر، شاشة بانوراما، ديكورات سيلنج، وسنتر بيس.<br><br><strong>إضافات اختيارية:</strong> فوتوسيشن، زفة دمياطي، ميك أب ارتيست، تورتة، ماكينة سحاب، وفاير شو.<br><em>للتواصل المباشر مع قاعة سفن سكاي: 01153045141 - 01096679676</em>",
+        heroImg: "./assets/events/hero.jpg",
+        galleryHero: "./assets/events/1.jpg",
+        galleryThumbs: ["./assets/events/2.jpg", "./assets/events/3.jpg"],
+        
+        /* THE NEW SMART ALBUM */
+        menuBtnText: "ألبوم صور القاعات",
+        menuBtnIcon: "fas fa-images",
+        menu: [
+            "./assets/events/album/1.jpg",
+            "./assets/events/album/2.jpg",
+            "./assets/events/album/3.jpg",
+            "./assets/events/album/4.jpg",
+            "./assets/events/album/5.jpg",
+            "./assets/events/album/6.jpg",
+            "./assets/events/album/7.jpg",
+            "./assets/events/album/8.jpg",
+            "./assets/events/album/9.jpg"
+        ],
+        
+        amenities: [
+            { icon: "fas fa-ring", text: "قاعة سفن سكاي 7 Sky (تتسع حتى 700 فرد)" },
+            { icon: "fas fa-gem", text: "قاعتي الماسة ونفرتاري (تتسع حتى 225 فرد)" },
+            { icon: "fas fa-camera", text: "باقات تصوير وفيديو متكاملة" },
+            { icon: "fas fa-magic", text: "إضافات مميزة: فاير شو، سحاب، وزفة دمياطي" },
+            { icon: "fas fa-star", text: "سويت مجاني لتجهيز العروسة (باقة سفن سكاي)" }
+        ],
+        contact: {
+            phone: "+201103307919",
+            whatsapp: "201103307919"
+        },
+        locationUrl: null
     },
     {
         id: "sports",
