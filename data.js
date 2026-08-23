@@ -21,7 +21,7 @@ const facilitiesData = [
         ],
         contact: {
             phone: "01022006906",
-            whatsapp: "01022006906"
+            whatsapp: "+201022006906"
         },
         locationUrl: "https://maps.app.goo.gl/cQcMkU4UgcAsrKpr9?g_st=ac"
     },
@@ -46,7 +46,7 @@ const facilitiesData = [
         ],
         contact: {
             phone: "01032177049",
-            whatsapp: "01032177049"
+            whatsapp: "+201032177049"
         },
         locationUrl: null
     },
@@ -81,7 +81,7 @@ const facilitiesData = [
         ],
         contact: {
             phone: "0223428242",
-            whatsapp: "201070322434"
+            whatsapp: "+201070322434"
         },
         locationUrl: null
     },
@@ -107,7 +107,7 @@ const facilitiesData = [
         ],
         contact: {
             phone: "01022006906",
-            whatsapp: "01022006906"
+            whatsapp: "+201022006906"
         },
         locationUrl: null
     },
@@ -132,7 +132,7 @@ const facilitiesData = [
         ],
         contact: {
             phone: "0223428242",
-            whatsapp: "201070322434"
+            whatsapp: "+201070322434"
         },
         locationUrl: null
     },
@@ -171,8 +171,8 @@ const facilitiesData = [
             { icon: "fas fa-star", text: "سويت مجاني لتجهيز العروسة (باقة سفن سكاي)" }
         ],
         contact: {
-            phone: "+201103307919",
-            whatsapp: "201103307919"
+            phone: "01103307919",
+            whatsapp: "+201103307919"
         },
         locationUrl: null
     },
