@@ -370,4 +370,46 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    /* ==========================================================================
+       9. SCROLL TO TOP & SCROLL SPY
+       ========================================================================== */
+    const scrollTopBtn = document.getElementById('scroll-to-top');
+    const sections = document.querySelectorAll('section[id], header[id]');
+    const navItems = document.querySelectorAll('.nav-links .nav-item:not(.open-contact-modal)');
+
+    window.addEventListener('scroll', () => {
+        // 1. Scroll To Top Visibility
+        if (window.scrollY > 500) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+
+        // 2. Scroll Spy Logic
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            // Activate when the section is 1/3 of the way down the screen
+            if (scrollY >= (sectionTop - sectionHeight / 3)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active-nav');
+            // If the href contains the current section ID, light it up
+            if (item.getAttribute('href').includes(current)) {
+                item.classList.add('active-nav');
+            }
+        });
+    }, { passive: true });
+
+    // Scroll to Top action
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 });

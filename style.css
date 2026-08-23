@@ -204,8 +204,8 @@ h1, h2, h3, h4 {
     transition: width var(--transition-fast);
 }
 
-.nav-item:hover { color: var(--accent-gold); }
-.nav-item:hover::after { width: 100%; }
+.nav-item:hover, .nav-item.active-nav { color: var(--accent-gold); }
+.nav-item:hover::after, .nav-item.active-nav::after { width: 100%; }
 
 .nav-actions {
     display: flex;
@@ -1014,4 +1014,118 @@ h1, h2, h3, h4 {
     .floating-social-group { bottom: 20px; left: 20px; }
     .social-float { width: 50px; height: 50px; font-size: 1.5rem; }
     .glass-modal-content { padding: 1.5rem; }
+}
+
+/* ==========================================================================
+   PREMIUM FOOTER
+   ========================================================================== */
+.site-footer {
+    background-color: #050605; /* Deep rich black */
+    padding: 5rem 0 0 0;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-brand p {
+    color: var(--text-secondary);
+    margin-top: 1rem;
+    max-width: 400px;
+}
+
+.footer-links h3, .footer-social h3 {
+    color: #F0F2EB;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.footer-links ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+    color: var(--accent-gold);
+}
+
+.footer-social .social-icons {
+    display: flex;
+    gap: 1rem;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+    border: 1px solid var(--border-color);
+}
+
+.footer-social a:hover {
+    background: var(--accent-gold);
+    color: #141A16;
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    background-color: #030403;
+}
+
+/* ==========================================================================
+   SCROLL TO TOP BUTTON
+   ========================================================================== */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 110px; /* Sits above the floating social group */
+    right: 30px;
+    background: rgba(11, 14, 12, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    z-index: 800;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: all var(--transition-fast);
+}
+
+.scroll-top-btn.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    background: var(--accent-gold);
+    color: #141A16;
+}
+
+@media (max-width: 768px) {
+    .footer-container { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+    .footer-brand p { margin: 1rem auto 0; }
+    .footer-social .social-icons { justify-content: center; }
+    .scroll-top-btn { bottom: 90px; right: 20px; }
 }
