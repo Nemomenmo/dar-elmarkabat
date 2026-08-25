@@ -27,8 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('dar_theme');
     if (savedTheme) {
         setTheme(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        setTheme('light');
+    } else {
+        // Force dark mode as the absolute default for all new visitors
+        setTheme('dark');
     }
 
     themeToggle.addEventListener('click', () => {
