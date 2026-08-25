@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>دار المركبات | Dar Elmarkabat</title>
     
-    <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="دار المركبات | Dar Elmarkabat">
     <meta property="og:description" content="وجهتك المتكاملة للإقامة، الطعام، الترفيه، والمناسبات. اكتشف الفخامة في قلب دار المركبات.">
     <meta property="og:image" content="https://nemomenmo.github.io/dar-elmarkabat/assets/og-image.jpg">
@@ -19,7 +18,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Preloader -->
     <div id="preloader">
         <div class="loader-content">
             <h2 class="loader-logo">دار المركبات</h2>
@@ -27,7 +25,6 @@
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#home" class="brand-logo">دار المركبات</a>
@@ -48,7 +45,6 @@
         </div>
     </nav>
 
-    <!-- Mobile Fullscreen Menu -->
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-content">
             <a href="#home" class="mobile-link">الرئيسية</a>
@@ -58,7 +54,6 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
     <header id="home" class="hero">
         <div class="hero-bg">
             <img src="./assets/hero/hero-bg.jpg" alt="دار المركبات" loading="lazy">
@@ -74,21 +69,17 @@
         </a>
     </header>
 
-    <!-- Exclusive Promo Banners (Side-by-Side Grid) -->
     <section id="promotions" class="promo-section section-padding bg-alternate">
         <div class="container reveal-up">
             <div class="promotions-grid">
                 
-                <!-- Promo 1: Moulid (With Status Slider) -->
                 <div class="promo-card">
                     <div class="status-slider">
-                        <!-- Status Progress Bars -->
                         <div class="status-bars">
                             <div class="status-bar"><div class="status-fill"></div></div>
                             <div class="status-bar"><div class="status-fill"></div></div>
                             <div class="status-bar"><div class="status-fill"></div></div>
                         </div>
-                        <!-- Status Images -->
                         <div class="status-images">
                             <img src="./assets/promo/1.jpg" alt="عرض 1" class="status-img active lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
                             <img src="./assets/promo/2.jpg" alt="عرض 2" class="status-img lightbox-trigger" data-gallery="moulid-promo" loading="lazy">
@@ -103,7 +94,6 @@
                     </div>
                 </div>
 
-                <!-- Promo 2: Chalets (Static Image) -->
                 <div class="promo-card">
                     <div class="promo-image-wrapper">
                         <img src="./assets/promo/sokhna.jpg" alt="قرية اللؤلؤة والسخنة" class="promo-img" loading="lazy">
@@ -112,7 +102,6 @@
                         <span class="promo-badge"><i class="fas fa-water"></i> حجوزات الصيف</span>
                         <h2 class="gold-text">قرية اللؤلؤة والسخنة</h2>
                         <p>بادر بحجز شاليهك الآن واستمتع بأجمل الأوقات العائلية على البحر مباشرة مع خدماتنا الفندقية المتكاملة.</p>
-                        <!-- Dynamic Smart Button -->
                         <button class="btn btn-primary action-contact-btn" data-phone="+201022006906" data-whatsapp="201022006906" dir="ltr"><i class="fas fa-phone"></i> +20 102 200 6906</button>
                     </div>
                 </div>
@@ -121,7 +110,6 @@
         </div>
     </section>
 
-    <!-- Cinematic Transition -->
     <section id="experience-intro" class="cinematic-transition">
         <div class="transition-content reveal-up">
             <h2 class="huge-text">أكثر من مجرد مكان</h2>
@@ -129,7 +117,6 @@
         </div>
     </section>
 
-    <!-- Directory Section -->
     <section id="directory" class="directory-section section-padding">
         <div class="container">
             <div class="section-header reveal-up">
@@ -138,15 +125,12 @@
                 <p class="section-desc">كل تجربة تبدأ بخطوة</p>
             </div>
             
-            <!-- Cards will be injected here via script.js -->
             <div class="editorial-grid" id="directory-grid"></div>
         </div>
     </section>
 
-    <!-- Full Facility Sections will be injected here via script.js -->
     <div id="facility-sections-container"></div>
 
-    <!-- Floating Social Group -->
     <div class="floating-social-group">
         <a href="https://www.facebook.com/Dar.elmarkabat" class="social-float facebook" target="_blank" aria-label="فيسبوك دار المركبات">
             <i class="fab fa-facebook-f"></i>
@@ -157,12 +141,10 @@
         </a>
     </div>
 
-    <!-- Scroll to Top Button -->
     <button id="scroll-to-top" class="icon-btn scroll-top-btn" aria-label="العودة للأعلى">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Premium Footer -->
     <footer class="site-footer">
         <div class="container footer-container">
             <div class="footer-brand">
@@ -190,12 +172,40 @@
         </div>
     </footer>
 
-    <!-- Premium Contact Modal -->
+
+    <!-- Instructions Modal -->
+    <div id="instructions-modal" class="glass-modal">
+        <div class="glass-modal-content">
+            <div class="modal-header">
+                <h3>التعليمات والشروط</h3>
+                <button class="icon-btn close-modal-btn" data-target="instructions-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <ul id="instructions-list" class="instructions-list"></ul>
+        </div>
+    </div>
+
+    <!-- Pricing Modal (Tabbed Dashboard) -->
+    <div id="pricing-modal" class="glass-modal">
+        <div class="glass-modal-content pricing-content-box">
+            <div class="modal-header">
+                <h3>قائمة الأسعار والإقامة</h3>
+                <button class="icon-btn close-modal-btn" data-target="pricing-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="pricing-tabs" id="pricing-tabs-container">
+                <!-- Tabs Injected dynamically -->
+            </div>
+            <div id="pricing-details-container" class="pricing-details">
+                <!-- Pricing Tables injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
     <div id="contact-modal" class="glass-modal">
         <div class="glass-modal-content">
             <div class="modal-header">
                 <h3>دليل التواصل المباشر</h3>
-                <button class="icon-btn close-modal"><i class="fas fa-times"></i></button>
+                <button class="icon-btn close-modal-btn" data-target="contact-modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="contact-grid">
                 <div class="contact-card">
@@ -233,7 +243,7 @@
         <div class="glass-modal-content mini-modal">
             <div class="modal-header">
                 <h3>اختر وسيلة التواصل</h3>
-                <button class="icon-btn close-action-sheet"><i class="fas fa-times"></i></button>
+                <button class="icon-btn close-modal-btn" data-target="action-sheet-modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="action-sheet-options">
                 <a href="#" id="action-call" class="btn btn-outline"><i class="fas fa-phone"></i> اتصال هاتفي</a>
