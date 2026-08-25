@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderArchitecture() {
         facilitiesData.forEach((facility, index) => {
-            // 1. Generate Directory Card
             const delayClass = index % 3 === 1 ? 'delay-1' : index % 3 === 2 ? 'delay-2' : '';
             const cardHTML = `
                 <a href="${facility.fullDesc ? `#${facility.id}` : '#'}" class="grid-card ${facility.gridSize} reveal-up ${delayClass}">
@@ -82,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             gridContainer.insertAdjacentHTML('beforeend', cardHTML);
 
-            // 2. Generate Full Section (If Data Exists)
             if (facility.fullDesc) {
                 const isReverse = index % 2 !== 0 ? 'reverse-layout bg-alternate' : '';
                 
@@ -91,13 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 ).join('');
 
                 let actionsHTML = '';
-                if (facility.contact.phone) actionsHTML += `<a href="tel:${facility.contact.phone}" class="btn btn-outline"><i class="fas fa-phone"></i> ${facility.contact.phone}</a>`;
-                if (facility.contact.whatsapp) actionsHTML += `<a href="https://wa.me/${facility.contact.whatsapp}" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> تواصل معنا</a>`;
+                
+                // New Smart Buttons Engine
+                if (facility.instructions) {
+                    actionsHTML += `<button class="btn btn-outline open-instructions-btn" data-id="${facility.id}"><i class="fas fa-file-alt"></i> التعليمات</button>`;
+                }
+                if (facility.pricing) {
+                    actionsHTML += `<button class="btn btn-primary open-pricing-btn" data-id="${facility.id}"><i class="fas fa-tags"></i> الأسعار</button>`;
+                }
                 if (facility.menu && facility.menu.length > 0) {
                     const btnText = facility.menuBtnText || 'عرض المنيو';
                     const btnIcon = facility.menuBtnIcon || 'fas fa-book-open';
-                    actionsHTML += `<button class="btn btn-text open-menu-btn" data-menu="${facility.id}"><i class="${btnIcon}"></i> ${btnText}</button>`;
+                    actionsHTML += `<button class="btn btn-outline open-menu-btn" data-menu="${facility.id}"><i class="${btnIcon}"></i> ${btnText}</button>`;
                 }
+                
+                // Contact Buttons Last
+                if (facility.contact.phone) actionsHTML += `<a href="tel:${facility.contact.phone}" class="btn btn-outline"><i class="fas fa-phone"></i> ${facility.contact.phone}</a>`;
+                if (facility.contact.whatsapp) actionsHTML += `<a href="https://wa.me/${facility.contact.whatsapp}" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> تواصل معنا</a>`;
+                
                 if (facility.locationUrl) actionsHTML += `<a href="${facility.locationUrl}" target="_blank" class="btn btn-text"><i class="fas fa-map-marker-alt"></i> الموقع</a>`;
 
                 const thumbsHTML = facility.galleryThumbs.map(thumb => 
@@ -129,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    renderArchitecture(); // Build DOM before initiating observers
+    renderArchitecture(); 
 
     /* ==========================================================================
        4. SCROLL REVEAL (Intersection Observer)
@@ -160,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentGallery = [];
     let currentIndex = 0;
 
-    // Gallery Triggers
     document.querySelectorAll('.lightbox-trigger').forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
@@ -172,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Menu Triggers
     document.querySelectorAll('.open-menu-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const facilityId = btn.getAttribute('data-menu');
@@ -242,37 +249,123 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     /* ==========================================================================
-       6. CONTACT MODAL LOGIC
+       6. GLOBAL MODALS (CONTACT, INSTRUCTIONS, PRICING)
        ========================================================================== */
-    const contactModal = document.getElementById('contact-modal');
-    const openContactBtns = document.querySelectorAll('.open-contact-modal');
-    const closeContactBtn = document.querySelector('.close-modal');
-
-    function openContact() {
-        if (mobileMenu.classList.contains('active')) {
-            toggleMobileMenu();
-        }
-        contactModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeContact() {
-        contactModal.classList.remove('active');
+    const allModals = document.querySelectorAll('.glass-modal');
+    
+    function closeModal(modalElement) {
+        modalElement.classList.remove('active');
         document.body.style.overflow = '';
     }
 
-    openContactBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openContact();
+    document.querySelectorAll('.close-modal-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            closeModal(document.getElementById(targetId));
         });
     });
 
-    if (closeContactBtn) closeContactBtn.addEventListener('click', closeContact);
+    allModals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal(modal);
+        });
+    });
+
+    // 6a. Contact Modal
+    const contactModal = document.getElementById('contact-modal');
+    document.querySelectorAll('.open-contact-modal').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (mobileMenu.classList.contains('active')) toggleMobileMenu();
+            contactModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // 6b. Instructions Modal
+    const instructionsModal = document.getElementById('instructions-modal');
+    const instructionsList = document.getElementById('instructions-list');
     
-    if (contactModal) {
-        contactModal.addEventListener('click', (e) => {
-            if (e.target === contactModal) closeContact();
+    document.querySelectorAll('.open-instructions-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const facilityId = btn.getAttribute('data-id');
+            const facility = facilitiesData.find(f => f.id === facilityId);
+            
+            instructionsList.innerHTML = facility.instructions.map(inst => 
+                `<li><i class="fas fa-check-circle gold-text"></i> <span>${inst}</span></li>`
+            ).join('');
+            
+            instructionsModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // 6c. Pricing Modal (With Smart Crossfade Tabs)
+    const pricingModal = document.getElementById('pricing-modal');
+    const pricingTabsContainer = document.getElementById('pricing-tabs-container');
+    const pricingDetailsContainer = document.getElementById('pricing-details-container');
+
+    document.querySelectorAll('.open-pricing-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const facilityId = btn.getAttribute('data-id');
+            const facility = facilitiesData.find(f => f.id === facilityId);
+            
+            renderPricingData(facility.pricing);
+            
+            pricingModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    function renderPricingData(pricingArray) {
+        pricingTabsContainer.innerHTML = '';
+        pricingDetailsContainer.innerHTML = '';
+
+        pricingArray.forEach((category, index) => {
+            // Build Tabs
+            const tabBtn = document.createElement('button');
+            tabBtn.className = `pricing-tab-btn ${index === 0 ? 'active' : ''}`;
+            tabBtn.textContent = category.title;
+            tabBtn.addEventListener('click', () => switchPricingTab(index));
+            pricingTabsContainer.appendChild(tabBtn);
+
+            // Build Content
+            const contentBox = document.createElement('div');
+            contentBox.className = `pricing-content-view ${index === 0 ? 'active fade-in' : ''}`;
+            contentBox.id = `pricing-view-${index}`;
+            
+            let tiersHTML = category.tiers.map(tier => `
+                <div class="pricing-tier">
+                    <h4>${tier.name}</h4>
+                    <div class="tier-prices">
+                        <div class="price-box"><span>أيام عادية</span><strong>${tier.normal} ج</strong></div>
+                        <div class="price-box"><span>إجازات رسمية</span><strong>${tier.holiday} ج</strong></div>
+                    </div>
+                </div>
+            `).join('');
+
+            let notesHTML = category.notes.map(note => `<li><i class="fas fa-info-circle"></i> ${note}</li>`).join('');
+
+            contentBox.innerHTML = `
+                <div class="pricing-tiers-grid">${tiersHTML}</div>
+                <ul class="pricing-notes">${notesHTML}</ul>
+            `;
+            pricingDetailsContainer.appendChild(contentBox);
+        });
+    }
+
+    function switchPricingTab(activeIndex) {
+        // Handle Tab Buttons
+        document.querySelectorAll('.pricing-tab-btn').forEach((btn, idx) => {
+            btn.classList.toggle('active', idx === activeIndex);
+        });
+        // Handle Content Crossfade
+        document.querySelectorAll('.pricing-content-view').forEach((view, idx) => {
+            view.classList.remove('active', 'fade-in');
+            if (idx === activeIndex) {
+                view.classList.add('active');
+                setTimeout(() => view.classList.add('fade-in'), 10); // Trigger CSS animation
+            }
         });
     }
     
@@ -285,11 +378,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusImages = slider.querySelectorAll('.status-img');
         const statusFills = slider.querySelectorAll('.status-fill');
         let currentStatus = 0;
-        const statusDuration = 4000; // 4 seconds per image
+        const statusDuration = 4000; 
 
         if (statusImages.length > 0 && statusFills.length > 0) {
             function updateStatus() {
-                // Reset all states for this specific slider
                 statusImages.forEach((img, index) => {
                     img.classList.remove('active');
                     statusFills[index].classList.remove('animating', 'completed');
@@ -298,18 +390,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
 
-                // Activate current status
                 statusImages[currentStatus].classList.add('active');
                 statusFills[currentStatus].classList.add('animating');
 
-                // Trigger next loop
                 setTimeout(() => {
                     currentStatus = (currentStatus + 1) % statusImages.length;
                     updateStatus();
                 }, statusDuration);
             }
-
-            // Initialize the first loop
             updateStatus();
         }
     });
@@ -319,7 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     const actionBtns = document.querySelectorAll('.action-contact-btn');
     const actionSheet = document.getElementById('action-sheet-modal');
-    const closeActionSheet = document.querySelector('.close-action-sheet');
     const actionCall = document.getElementById('action-call');
     const actionWa = document.getElementById('action-wa');
 
@@ -328,15 +415,11 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const phone = btn.getAttribute('data-phone');
             const wa = btn.getAttribute('data-whatsapp');
-            
-            // Check if device is a mobile phone/tablet
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (!isMobile) {
-                // If PC, route directly to WhatsApp Web
                 window.open(`https://wa.me/${wa}`, '_blank');
             } else {
-                // If Mobile, show choice Action Sheet
                 actionCall.href = `tel:${phone}`;
                 actionWa.href = `https://wa.me/${wa}`;
                 actionSheet.classList.add('active');
@@ -345,29 +428,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    if (closeActionSheet) {
-        closeActionSheet.addEventListener('click', () => {
-            actionSheet.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    }
-
-    if (actionSheet) {
-        actionSheet.addEventListener('click', (e) => {
-            if (e.target === actionSheet) {
-                actionSheet.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-    
-    // Close Action Sheet after making a selection
     if (actionCall && actionWa) {
         [actionCall, actionWa].forEach(el => {
-            el.addEventListener('click', () => {
-                actionSheet.classList.remove('active');
-                document.body.style.overflow = '';
-            });
+            el.addEventListener('click', () => { closeModal(actionSheet); });
         });
     }
 
@@ -379,19 +442,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const navItems = document.querySelectorAll('.nav-links .nav-item:not(.open-contact-modal)');
 
     window.addEventListener('scroll', () => {
-        // 1. Scroll To Top Visibility
         if (window.scrollY > 500) {
             scrollTopBtn.classList.add('visible');
         } else {
             scrollTopBtn.classList.remove('visible');
         }
 
-        // 2. Scroll Spy Logic
         let current = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            // Activate when the section is 1/3 of the way down the screen
             if (scrollY >= (sectionTop - sectionHeight / 3)) {
                 current = section.getAttribute('id');
             }
@@ -399,14 +459,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         navItems.forEach(item => {
             item.classList.remove('active-nav');
-            // If the href contains the current section ID, light it up
             if (item.getAttribute('href').includes(current)) {
                 item.classList.add('active-nav');
             }
         });
     }, { passive: true });
 
-    // Scroll to Top action
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
