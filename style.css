@@ -1020,7 +1020,7 @@ h1, h2, h3, h4 {
    PREMIUM FOOTER
    ========================================================================== */
 .site-footer {
-    background-color: #050605; /* Deep rich black */
+    background-color: #050605;
     padding: 5rem 0 0 0;
     margin-top: 4rem;
     border-top: 1px solid var(--border-color);
@@ -1098,7 +1098,7 @@ h1, h2, h3, h4 {
    ========================================================================== */
 .scroll-top-btn {
     position: fixed;
-    bottom: 110px; /* Sits above the floating social group */
+    bottom: 110px; 
     right: 30px;
     background: rgba(11, 14, 12, 0.8);
     backdrop-filter: blur(10px);
@@ -1128,4 +1128,143 @@ h1, h2, h3, h4 {
     .footer-brand p { margin: 1rem auto 0; }
     .footer-social .social-icons { justify-content: center; }
     .scroll-top-btn { bottom: 90px; right: 20px; }
+}
+
+/* ==========================================================================
+   SMART MODALS (INSTRUCTIONS & PRICING DASHBOARD)
+   ========================================================================== */
+
+/* Instructions List */
+.instructions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.instructions-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--bg-alt);
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+.instructions-list i {
+    font-size: 1.2rem;
+    margin-top: 0.2rem;
+}
+
+/* Pricing Dashboard */
+.pricing-content-box {
+    padding-bottom: 2rem;
+}
+.pricing-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.pricing-tab-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+}
+.pricing-tab-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+.pricing-tab-btn.active {
+    background: var(--accent-gold);
+    color: #141A16;
+    border-color: var(--accent-gold);
+}
+
+.pricing-content-view {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.pricing-content-view.active {
+    display: block;
+}
+.pricing-content-view.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pricing-tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.pricing-tier {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    text-align: center;
+}
+.pricing-tier h4 {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.tier-prices {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.price-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.price-box span {
+    color: var(--text-secondary);
+}
+.price-box strong {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.pricing-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(212, 175, 55, 0.05);
+    padding: 1.5rem;
+    border-radius: var(--radius-sm);
+    border-right: 3px solid var(--accent-gold);
+}
+.pricing-notes li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    color: #D1D8D3;
+    font-size: 0.95rem;
+}
+.pricing-notes i {
+    color: var(--accent-gold);
+    margin-top: 0.3rem;
+}
+
+@media (max-width: 768px) {
+    .pricing-tabs { padding-bottom: 1rem; }
+    .pricing-tab-btn { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+    .pricing-tier { padding: 1rem; }
+    .price-box strong { font-size: 1.1rem; }
 }
