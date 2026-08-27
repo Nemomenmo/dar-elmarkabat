@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
-       2. NAVIGATION & MOBILE MENU
+       2. NAVIGATION & MOBILE MENU (BUG FIXED)
        ========================================================================== */
     const navbar = document.getElementById('navbar');
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -92,7 +92,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-    mobileLinks.forEach(link => link.addEventListener('click', toggleMobileMenu));
+    
+    // THE FIX: Safe asynchronous scrolling for mobile links
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Stop default jump
+            
+            const targetId = link.getAttribute('href');
+            
+            // 1. Close menu visually immediately
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            document.body.style.overflow = '';
+            
+            // 2. Consume the history state safely
+            popOverlayState();
+            
+            // 3. Scroll to the target manually after a tiny delay
+            setTimeout(() => {
+                if (targetId && targetId !== '#') {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        const headerOffset = document.querySelector('.navbar').offsetHeight || 80;
+                        const elementPosition = targetSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                } else if (targetId === '#') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 50);
+        });
+    });
 
     /* ==========================================================================
        3. DATA-DRIVEN ARCHITECTURE RENDERER
@@ -180,21 +214,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const track = document.getElementById('reviews-track');
         if (!track || typeof reviewsData === 'undefined') return;
         
-        // Google-style avatar background colors
         const colors = ['#4285F4', '#DB4437', '#F4B400', '#0F9D58', '#009688', '#673AB7', '#3F51B5'];
         
         reviewsData.forEach(review => {
-            // Extract User Initials
             const nameParts = review.name.trim().split(' ');
             let initials = nameParts[0].charAt(0);
             if (nameParts.length > 1 && nameParts[1]) initials += nameParts[1].charAt(0);
             initials = initials.toUpperCase();
             
-            // Assign color based on name characters so it's consistent
             const charCodeSum = review.name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
             const color = colors[charCodeSum % colors.length];
             
-            // Generate Stars (supports half stars)
             let starsHTML = '';
             for(let i=1; i<=5; i++) {
                 if(i <= review.rating) starsHTML += '<i class="fas fa-star"></i>';
@@ -335,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     /* ==========================================================================
-       6. GLOBAL MODALS (CONTACT, INSTRUCTIONS, PRICING)
+       6. GLOBAL MODALS (CONTACT, INSTRUCTIONS, PRICING) - BUG FIXED
        ========================================================================== */
     const allModals = document.querySelectorAll('.glass-modal');
     
@@ -364,10 +394,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.open-contact-modal').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (mobileMenu.classList.contains('active')) toggleMobileMenu();
+            
+            // Safe swap: Close menu visually but KEEP history state for the modal
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                const icon = document.querySelector('#mobile-menu-btn i');
+                if (icon) icon.className = 'fas fa-bars';
+            } else {
+                document.body.style.overflow = 'hidden';
+                pushOverlayState();
+            }
+            
             contactModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            pushOverlayState();
         });
     });
 
