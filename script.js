@@ -1,6 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     /* ==========================================================================
+       0. HISTORY API (BACK BUTTON MANAGER)
+       ========================================================================== */
+    function pushOverlayState() {
+        if (!window.history.state || !window.history.state.overlayOpen) {
+            window.history.pushState({ overlayOpen: true }, "");
+        }
+    }
+
+    function popOverlayState() {
+        if (window.history.state && window.history.state.overlayOpen) {
+            window.history.back();
+        }
+    }
+
+    window.addEventListener('popstate', (e) => {
+        document.querySelectorAll('.glass-modal.active, #lightbox.active, #mobile-menu.active').forEach(el => {
+            el.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+        
+        const lbImage = document.getElementById('lb-image');
+        if (lbImage) setTimeout(() => { lbImage.src = ''; }, 300);
+        
+        const mobileMenuBtnIcon = document.querySelector('#mobile-menu-btn i');
+        if (mobileMenuBtnIcon) mobileMenuBtnIcon.className = 'fas fa-bars';
+    });
+
+    /* ==========================================================================
        1. PRELOADER & THEME MANAGEMENT
        ========================================================================== */
     const preloader = document.getElementById('preloader');
@@ -28,8 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedTheme) {
         setTheme(savedTheme);
     } else {
-        // Force dark mode as the absolute default for all new visitors
-        setTheme('dark');
+        setTheme('dark'); 
     }
 
     themeToggle.addEventListener('click', () => {
@@ -51,7 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     function toggleMobileMenu() {
-        mobileMenu.classList.toggle('active');
+        const isActive = mobileMenu.classList.contains('active');
+        if (!isActive) {
+            mobileMenu.classList.add('active');
+            pushOverlayState();
+        } else {
+            mobileMenu.classList.remove('active');
+            popOverlayState();
+        }
         const icon = mobileMenuBtn.querySelector('i');
         icon.className = mobileMenu.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
@@ -91,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let actionsHTML = '';
                 
-                // New Smart Buttons Engine
                 if (facility.instructions) {
                     actionsHTML += `<button class="btn btn-outline open-instructions-btn" data-id="${facility.id}"><i class="fas fa-file-alt"></i> التعليمات</button>`;
                 }
@@ -104,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     actionsHTML += `<button class="btn btn-outline open-menu-btn" data-menu="${facility.id}"><i class="${btnIcon}"></i> ${btnText}</button>`;
                 }
                 
-                // Contact Buttons Last
                 if (facility.contact.phone) actionsHTML += `<a href="tel:${facility.contact.phone}" class="btn btn-outline"><i class="fas fa-phone"></i> ${facility.contact.phone}</a>`;
                 if (facility.contact.whatsapp) actionsHTML += `<a href="https://wa.me/${facility.contact.whatsapp}" target="_blank" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> تواصل معنا</a>`;
                 
@@ -140,6 +172,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     renderArchitecture(); 
+    
+    /* ==========================================================================
+       3.5 GOOGLE MAPS REVIEWS RENDERER
+       ========================================================================== */
+    function renderReviews() {
+        const track = document.getElementById('reviews-track');
+        if (!track || typeof reviewsData === 'undefined') return;
+        
+        // Google-style avatar background colors
+        const colors = ['#4285F4', '#DB4437', '#F4B400', '#0F9D58', '#009688', '#673AB7', '#3F51B5'];
+        
+        reviewsData.forEach(review => {
+            // Extract User Initials
+            const nameParts = review.name.trim().split(' ');
+            let initials = nameParts[0].charAt(0);
+            if (nameParts.length > 1 && nameParts[1]) initials += nameParts[1].charAt(0);
+            initials = initials.toUpperCase();
+            
+            // Assign color based on name characters so it's consistent
+            const charCodeSum = review.name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
+            const color = colors[charCodeSum % colors.length];
+            
+            // Generate Stars (supports half stars)
+            let starsHTML = '';
+            for(let i=1; i<=5; i++) {
+                if(i <= review.rating) starsHTML += '<i class="fas fa-star"></i>';
+                else if(i - 0.5 === review.rating) starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                else starsHTML += '<i class="far fa-star"></i>';
+            }
+            
+            const cardHTML = `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar" style="background-color: ${color}">${initials}</div>
+                        <div class="review-meta">
+                            <h4>${review.name}</h4>
+                            <div class="review-badges">
+                                ${review.isLocalGuide ? '<span class="local-guide"><i class="fas fa-certificate"></i> مرشد محلي</span>' : ''}
+                                ${review.date ? `<span class="review-date">${review.date}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-stars">${starsHTML}</div>
+                    <p class="review-text">${review.text.replace(/\n/g, '<br>')}</p>
+                </div>
+            `;
+            track.insertAdjacentHTML('beforeend', cardHTML);
+        });
+    }
+    
+    renderReviews();
 
     /* ==========================================================================
        4. SCROLL REVEAL (Intersection Observer)
@@ -198,12 +281,14 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLightboxImage();
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
+        pushOverlayState();
     }
 
     function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
         setTimeout(() => { lbImage.src = ''; }, 300);
+        popOverlayState();
     }
 
     function updateLightboxImage() {
@@ -255,8 +340,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const allModals = document.querySelectorAll('.glass-modal');
     
     function closeModal(modalElement) {
-        modalElement.classList.remove('active');
-        document.body.style.overflow = '';
+        if (modalElement.classList.contains('active')) {
+            modalElement.classList.remove('active');
+            document.body.style.overflow = '';
+            popOverlayState();
+        }
     }
 
     document.querySelectorAll('.close-modal-btn').forEach(btn => {
@@ -272,7 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 6a. Contact Modal
     const contactModal = document.getElementById('contact-modal');
     document.querySelectorAll('.open-contact-modal').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -280,10 +367,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mobileMenu.classList.contains('active')) toggleMobileMenu();
             contactModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            pushOverlayState();
         });
     });
 
-    // 6b. Instructions Modal
     const instructionsModal = document.getElementById('instructions-modal');
     const instructionsList = document.getElementById('instructions-list');
     
@@ -298,10 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             instructionsModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            pushOverlayState();
         });
     });
 
-    // 6c. Pricing Modal (With Smart Crossfade Tabs)
     const pricingModal = document.getElementById('pricing-modal');
     const pricingTabsContainer = document.getElementById('pricing-tabs-container');
     const pricingDetailsContainer = document.getElementById('pricing-details-container');
@@ -315,6 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             pricingModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            pushOverlayState();
         });
     });
 
@@ -323,27 +411,35 @@ document.addEventListener('DOMContentLoaded', () => {
         pricingDetailsContainer.innerHTML = '';
 
         pricingArray.forEach((category, index) => {
-            // Build Tabs
             const tabBtn = document.createElement('button');
             tabBtn.className = `pricing-tab-btn ${index === 0 ? 'active' : ''}`;
             tabBtn.textContent = category.title;
             tabBtn.addEventListener('click', () => switchPricingTab(index));
             pricingTabsContainer.appendChild(tabBtn);
 
-            // Build Content
             const contentBox = document.createElement('div');
             contentBox.className = `pricing-content-view ${index === 0 ? 'active fade-in' : ''}`;
             contentBox.id = `pricing-view-${index}`;
             
-            let tiersHTML = category.tiers.map(tier => `
-                <div class="pricing-tier">
-                    <h4>${tier.name}</h4>
-                    <div class="tier-prices">
-                        <div class="price-box"><span>أيام عادية</span><strong>${tier.normal} ج</strong></div>
-                        <div class="price-box"><span>إجازات رسمية</span><strong>${tier.holiday} ج</strong></div>
+            let tiersHTML = category.tiers.map(tier => {
+                let pricesHTML = '';
+                
+                if (tier.normal) pricesHTML += `<div class="price-box"><span>أيام عادية</span><strong>${tier.normal} ج</strong></div>`;
+                if (tier.holiday) pricesHTML += `<div class="price-box"><span>إجازات رسمية</span><strong>${tier.holiday} ج</strong></div>`;
+                if (tier.price) pricesHTML += `<div class="price-box"><span>${tier.priceLabel || 'الاشتراك'}</span><strong>${tier.price} ج</strong></div>`;
+
+                let timeHTML = tier.time ? `<p class="tier-time"><i class="fas fa-clock"></i> ${tier.time}</p>` : '';
+
+                return `
+                    <div class="pricing-tier">
+                        <h4>${tier.name}</h4>
+                        ${timeHTML}
+                        <div class="tier-prices">
+                            ${pricesHTML}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
 
             let notesHTML = category.notes.map(note => `<li><i class="fas fa-info-circle"></i> ${note}</li>`).join('');
 
@@ -356,16 +452,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function switchPricingTab(activeIndex) {
-        // Handle Tab Buttons
         document.querySelectorAll('.pricing-tab-btn').forEach((btn, idx) => {
             btn.classList.toggle('active', idx === activeIndex);
         });
-        // Handle Content Crossfade
         document.querySelectorAll('.pricing-content-view').forEach((view, idx) => {
             view.classList.remove('active', 'fade-in');
             if (idx === activeIndex) {
                 view.classList.add('active');
-                setTimeout(() => view.classList.add('fade-in'), 10); // Trigger CSS animation
+                setTimeout(() => view.classList.add('fade-in'), 10);
             }
         });
     }
@@ -425,6 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 actionWa.href = `https://wa.me/${wa}`;
                 actionSheet.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                pushOverlayState();
             }
         });
     });
@@ -439,8 +534,8 @@ document.addEventListener('DOMContentLoaded', () => {
        9. SCROLL TO TOP & SCROLL SPY
        ========================================================================== */
     const scrollTopBtn = document.getElementById('scroll-to-top');
-    const sections = document.querySelectorAll('section[id], header[id]');
-    const navItems = document.querySelectorAll('.nav-links .nav-item:not(.open-contact-modal)');
+    const getSections = () => document.querySelectorAll('section[id], header[id]');
+    const getNavItems = () => document.querySelectorAll('.nav-links .nav-item:not(.open-contact-modal)');
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 500) {
@@ -450,17 +545,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let current = '';
-        sections.forEach(section => {
+        getSections().forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            if (scrollY >= (sectionTop - sectionHeight / 3)) {
+            if (scrollY >= (sectionTop - window.innerHeight / 2)) {
                 current = section.getAttribute('id');
             }
         });
 
-        navItems.forEach(item => {
+        getNavItems().forEach(item => {
             item.classList.remove('active-nav');
-            if (item.getAttribute('href').includes(current)) {
+            if (item.getAttribute('href').includes(current) && current !== '') {
                 item.classList.add('active-nav');
             }
         });
