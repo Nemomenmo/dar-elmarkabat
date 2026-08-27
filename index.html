@@ -13,7 +13,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -30,8 +30,11 @@
             <a href="#home" class="brand-logo">دار المركبات</a>
             <div class="nav-links desktop-only">
                 <a href="#home" class="nav-item">الرئيسية</a>
-                <a href="#directory" class="nav-item">استكشف</a>
-                <a href="#hotel" class="nav-item">المرافق</a>
+                <a href="#directory" class="nav-item">الوجهات</a>
+                <a href="#hotel" class="nav-item">الإقامة</a>
+                <a href="#golden-restaurant" class="nav-item">المطاعم</a>
+                <a href="#events-office" class="nav-item">المناسبات</a>
+                <a href="#sports" class="nav-item">الأنشطة</a>
                 <a href="#" class="nav-item open-contact-modal">تواصل معنا</a>
             </div>
             <div class="nav-actions">
@@ -48,8 +51,11 @@
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-content">
             <a href="#home" class="mobile-link">الرئيسية</a>
-            <a href="#directory" class="mobile-link">استكشف</a>
-            <a href="#hotel" class="mobile-link">المرافق</a>
+            <a href="#directory" class="mobile-link">الوجهات</a>
+            <a href="#hotel" class="mobile-link">الإقامة</a>
+            <a href="#golden-restaurant" class="mobile-link">المطاعم</a>
+            <a href="#events-office" class="mobile-link">المناسبات</a>
+            <a href="#sports" class="mobile-link">الأنشطة</a>
             <a href="#" class="mobile-link open-contact-modal">تواصل معنا</a>
         </div>
     </div>
@@ -130,6 +136,26 @@
     </section>
 
     <div id="facility-sections-container"></div>
+
+    <!-- Google Maps Style Reviews Section -->
+    <section id="reviews" class="reviews-section section-padding bg-alternate">
+        <div class="container">
+            <div class="section-header reveal-up">
+                <span class="section-label">آراء العملاء</span>
+                <h2 class="section-title">ماذا يقول ضيوفنا؟</h2>
+                <div class="google-rating">
+                    <div class="rating-score">4.2</div>
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <div class="rating-count">من إجمالي 5,841 تقييم على Google</div>
+                </div>
+            </div>
+            
+            <!-- JavaScript will inject cards into this track -->
+            <div class="reviews-track reveal-up delay-1" id="reviews-track"></div>
+        </div>
+    </section>
 
     <div class="floating-social-group">
         <a href="https://www.facebook.com/Dar.elmarkabat" class="social-float facebook" target="_blank" aria-label="فيسبوك دار المركبات">
