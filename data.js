@@ -282,6 +282,20 @@ const facilitiesData = [
         galleryHero: "./assets/swimming-pool/1.jpg",
         galleryThumbs: ["./assets/swimming-pool/2.jpg", "./assets/swimming-pool/3.jpg"],
         menu: [], 
+        
+        instructions: [
+            "ممنوع دخول المأكولات والمشروبات نهائياً.",
+            "يجب الاستحمام قبل نزول حمام السباحة وبعد الخروج منه.",
+            "يجب الالتزام بالملابس المخصصة لحمام السباحة، وارتداء غطاء الرأس المخصص للسيدات والبنات (البونيه).",
+            "الدخول عائلات فقط.",
+            "ممنوع تغيير الملابس خارج اللوكر المخصص.",
+            "ضرورة الالتزام بالآداب العامة والألفاظ وإلا سينتج عنه الطرد من الدار.",
+            "ممنوع دخول الحيوانات الأليفة أو الدراجات البخارية.",
+            "تعليمات الإنقاذ: المنقذ هو من يحدد منطقة النزول طبقاً للتشغيل، وعلى الجميع اتباع تعليمات وتوجيهات الأمن حفاظاً على سلامتكم.",
+            "الأطفال مسئولية ذويهم بالكامل.",
+            "الدار غير مسئولة عن المقتنيات الشخصية."
+        ],
+
         amenities: [
             { icon: "fas fa-clock", text: "الفترة الحرة: من 10 صباحاً حتى 4 عصراً" },
             { icon: "fas fa-ticket-alt", text: "تذكرة موحدة (تشمل دخول الدار ونزول المسبح)" },
@@ -305,17 +319,14 @@ const facilitiesData = [
         fullDesc: "اكتشف طاقاتك وطاقات أبنائك مع باقة متكاملة من الأكاديميات الرياضية التي تشمل كرة القدم، الفنون القتالية، السباحة، وملاعب البادل المجهزة بأعلى المستويات. نوفر مدربين محترفين ومواعيد مرنة تناسب جميع الأفراد.",
         heroImg: "./assets/sports/hero.jpg",
         galleryHero: "./assets/sports/1.jpg",
-        galleryThumbs: ["./assets/sports/2.jpg", "./assets/sports/3.jpg",],
+        galleryThumbs: ["./assets/sports/2.jpg", "./assets/sports/3.jpg"],
         
         menuBtnText: "ألبوم الملاعب والأنشطة",
         menuBtnIcon: "fas fa-images",
         menu: [
             "./assets/sports/album/1.jpg",
             "./assets/sports/album/2.jpg",
-            "./assets/sports/album/3.jpg",
-            "./assets/sports/album/4.jpg",
-            "./assets/sports/album/5.jpg",
-            "./assets/sports/album/6.jpg"
+            "./assets/sports/album/3.jpg"
         ],
         
         instructions: [
