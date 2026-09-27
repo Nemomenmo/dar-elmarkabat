@@ -32,6 +32,8 @@
     --border-color: rgba(0, 0, 0, 0.06);
     --overlay: rgba(23, 33, 26, 0.4);
     --card-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    --hero-overlay-mid: rgba(23, 33, 26, 0.35);
+    --hero-overlay-top: rgba(23, 33, 26, 0.75);
 }
 
 /* Dark Theme Variables (Cinematic Default) */
@@ -47,6 +49,8 @@
     --border-color: rgba(255, 255, 255, 0.08);
     --overlay: rgba(11, 14, 12, 0.6);
     --card-shadow: 0 12px 35px rgba(0,0,0,0.5);
+    --hero-overlay-mid: rgba(11, 14, 12, 0.4);
+    --hero-overlay-top: rgba(11, 14, 12, 0.8);
 }
 
 /* ==========================================================================
@@ -334,7 +338,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, var(--bg-base) 0%, rgba(11, 14, 12, 0.4) 50%, rgba(11, 14, 12, 0.8) 100%);
+    background: linear-gradient(to top, var(--bg-base) 0%, var(--hero-overlay-mid) 50%, var(--hero-overlay-top) 100%);
     z-index: 1;
 }
 
@@ -400,6 +404,25 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
+}
+
+.promo-card:only-child {
+    max-width: 960px;
+    justify-self: center;
+    flex-direction: row;
+}
+
+.promo-card:only-child .promo-image-wrapper,
+.promo-card:only-child .status-slider {
+    width: 50%;
+    aspect-ratio: unset;
+    min-height: 360px;
+}
+
+.promo-card:only-child .promo-content {
+    width: 50%;
+    justify-content: center;
+    padding: 3rem 2.5rem;
 }
 
 .promo-card {
@@ -572,7 +595,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
-    auto-rows: 300px;
+    grid-auto-rows: 300px;
 }
 
 .grid-card {
@@ -1173,12 +1196,13 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
    RESPONSIVE DESIGN
    ========================================================================== */
 @media (max-width: 1024px) {
-    .editorial-grid { grid-template-columns: repeat(2, 1fr); auto-rows: 250px; }
+    .editorial-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 250px; }
     .grid-card.large { grid-column: span 2; grid-row: span 2; }
     .grid-card.medium, .grid-card.small { grid-column: span 1; grid-row: span 1; }
     
     .facility-layout { grid-template-columns: 1fr; gap: 3rem; }
     .reverse-layout .facility-layout { direction: rtl; } 
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
 }
 
 @media (max-width: 768px) {
@@ -1191,7 +1215,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     .huge-text { font-size: 2rem; }
     .cinematic-transition .gold-text { font-size: 1.5rem; }
     
-    .editorial-grid { grid-template-columns: 1fr; auto-rows: 300px; }
+    .editorial-grid { grid-template-columns: 1fr; grid-auto-rows: 300px; }
     .grid-card.large, .grid-card.medium, .grid-card.small { grid-column: span 1; grid-row: span 1; }
     
     .facility-name { font-size: 2.4rem; }
@@ -1466,7 +1490,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    color: #D1D8D3;
+    color: var(--text-secondary);
     font-size: 1rem;
 }
 .pricing-notes i {
@@ -1479,6 +1503,278 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     .pricing-tab-btn { padding: 0.7rem 1.4rem; font-size: 0.95rem; }
     .pricing-tier { padding: 1.5rem; }
     .price-box strong { font-size: 1.2rem; }
+}
+
+/* ==========================================================================
+   VISUAL ENHANCEMENTS — PREMIUM LAYER
+   ========================================================================== */
+
+/* Gold Shimmer Gradient Text */
+.gold-text {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, #F5D780 45%, var(--accent-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Section Title Decorative Underline */
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-gold), transparent);
+    margin: 1.2rem auto 0;
+    border-radius: 2px;
+}
+
+/* Ambient Section Glow Orbs */
+.directory-section {
+    position: relative;
+    overflow: hidden;
+}
+.directory-section::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+.directory-section::after {
+    content: '';
+    position: absolute;
+    bottom: 5%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Grid Card Sweep Shine on Hover */
+.grid-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.07) 50%,
+        transparent 100%
+    );
+    transform: skewX(-15deg);
+    transition: left 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 5;
+    pointer-events: none;
+}
+.grid-card:hover::after {
+    left: 150%;
+}
+
+/* Enhanced Card Overlay — Deeper, Richer Gradient */
+.card-overlay {
+    background: linear-gradient(
+        to top,
+        rgba(11, 14, 12, 0.98) 0%,
+        rgba(11, 14, 12, 0.55) 45%,
+        rgba(11, 14, 12, 0.12) 75%,
+        transparent 100%
+    );
+}
+
+/* Cinematic Section Ambient Glow & Float */
+.cinematic-transition {
+    position: relative;
+    overflow: hidden;
+}
+.cinematic-transition::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(212, 175, 55, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+.cinematic-transition .huge-text {
+    animation: subtleFloat 6s ease-in-out infinite;
+}
+@keyframes subtleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Review Card Quote Mark Decoration */
+.review-text::before {
+    content: '\201C';
+    font-size: 4rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--accent-gold);
+    opacity: 0.15;
+    line-height: 0.5;
+    display: block;
+    margin-bottom: 0.3rem;
+    pointer-events: none;
+}
+
+/* Enhanced Primary Button Glow */
+.btn-primary:hover {
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3), 0 0 60px rgba(212, 175, 55, 0.08);
+}
+
+/* WhatsApp Button Glow */
+.btn-whatsapp:hover {
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3), 0 0 40px rgba(37, 211, 102, 0.1);
+}
+
+/* Footer Premium Gold Gradient Border */
+.site-footer {
+    border-top: none;
+    position: relative;
+}
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+}
+
+/* Modal Enhanced Scale Entrance */
+.glass-modal-content {
+    transform: translateY(30px) scale(0.97);
+}
+.glass-modal.active .glass-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* Facility Category — Pill Badge Style */
+.facility-category {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.08);
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid rgba(212, 175, 55, 0.12);
+}
+
+/* Amenity List Refinement */
+.amenities-list li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: padding var(--transition-fast), color var(--transition-fast);
+}
+.amenities-list li:last-child {
+    border-bottom: none;
+}
+.amenities-list li:hover {
+    padding-right: 0.8rem;
+    color: var(--accent-gold);
+}
+
+/* Brand Logo Hover Glow */
+.brand-logo {
+    transition: color var(--transition-fast), text-shadow var(--transition-fast);
+}
+.brand-logo:hover {
+    color: var(--accent-gold);
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+}
+
+/* Contact Card Icon Hover Effect */
+.contact-icon {
+    transition: transform var(--transition-fast), text-shadow var(--transition-fast);
+}
+.contact-card:hover .contact-icon {
+    transform: scale(1.15);
+    text-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+}
+
+/* Rating Score — Gradient Number */
+.rating-score {
+    background: linear-gradient(180deg, var(--text-primary) 30%, var(--accent-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gallery Thumbnail Hover Ring */
+.gallery-thumbnails img {
+    transition: transform var(--transition-slow), box-shadow var(--transition-fast);
+}
+.gallery-thumbnails img:hover {
+    box-shadow: 0 0 0 3px var(--accent-gold), 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Promo Badge Shimmer Animation */
+.promo-badge {
+    position: relative;
+    overflow: hidden;
+}
+.promo-badge::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    animation: badgeShimmer 3s ease-in-out infinite;
+}
+@keyframes badgeShimmer {
+    0%, 100% { left: -100%; }
+    50% { left: 100%; }
+}
+
+/* Scroll-Top Button Glow */
+.scroll-top-btn:hover {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+/* Floating Social Enhanced Hover */
+.social-float:hover {
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.social-float.whatsapp:hover {
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.35);
+}
+.social-float.facebook:hover {
+    box-shadow: 0 8px 30px rgba(24, 119, 242, 0.35);
+}
+
+/* Hero Parallax Support (driven by JS) */
+.hero-bg {
+    will-change: transform;
+    transition: none;
+}
+.hero-content {
+    will-change: opacity, transform;
+}
+
+/* Hero Title Enhanced Typography */
+.hero-title {
+    letter-spacing: -0.03em;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+.hero-subtitle {
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Pricing Tab Active Glow */
+.pricing-tab-btn.active {
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
 }
 
 /* ==========================================================================
@@ -1495,4 +1791,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     }
     .reveal-up { opacity: 1; transform: none; }
     .reveal-text { opacity: 1; transform: none; filter: none; }
+    .cinematic-transition .huge-text { animation: none; transform: none; }
+    .hero-bg { will-change: auto; }
+    .hero-content { will-change: auto; }
 }

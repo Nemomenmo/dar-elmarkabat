@@ -503,7 +503,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /* ==========================================================================
-       7. PROMO STATUS SLIDER LOGIC
+       7. PROMO STATUS SLIDER LOGIC (with auto-pause off-screen)
        ========================================================================== */
     const sliders = document.querySelectorAll('.status-slider');
     
@@ -511,10 +511,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusImages = slider.querySelectorAll('.status-img');
         const statusFills = slider.querySelectorAll('.status-fill');
         let currentStatus = 0;
+        let intervalId = null;
         const statusDuration = 4000; 
 
         if (statusImages.length > 0 && statusFills.length > 0) {
-            function updateStatus() {
+            function applyStatus() {
                 statusImages.forEach((img, index) => {
                     img.classList.remove('active');
                     statusFills[index].classList.remove('animating', 'completed');
@@ -525,13 +526,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 statusImages[currentStatus].classList.add('active');
                 statusFills[currentStatus].classList.add('animating');
-
-                setTimeout(() => {
-                    currentStatus = (currentStatus + 1) % statusImages.length;
-                    updateStatus();
-                }, statusDuration);
             }
-            updateStatus();
+
+            function advanceStatus() {
+                currentStatus = (currentStatus + 1) % statusImages.length;
+                applyStatus();
+            }
+
+            function startSlider() {
+                if (!intervalId) {
+                    applyStatus();
+                    intervalId = setInterval(advanceStatus, statusDuration);
+                }
+            }
+
+            function stopSlider() {
+                if (intervalId) {
+                    clearInterval(intervalId);
+                    intervalId = null;
+                }
+            }
+
+            // Auto-pause when slider scrolls out of view
+            const sliderObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) startSlider();
+                    else stopSlider();
+                });
+            }, { threshold: 0.1 });
+
+            sliderObserver.observe(slider);
         }
     });
 
@@ -603,5 +627,71 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+    }
+
+    /* ==========================================================================
+       10. VISUAL ENHANCEMENTS — HERO PARALLAX & ANIMATED COUNTER
+       ========================================================================== */
+    
+    // Hero Parallax: background drifts + content fades on scroll
+    const heroBg = document.querySelector('.hero-bg');
+    const heroContent = document.querySelector('.hero-content');
+    const heroScrollIndicator = document.querySelector('.scroll-indicator');
+    const heroSection = document.querySelector('.hero');
+    
+    if (heroBg && heroSection) {
+        const heroHeight = heroSection.offsetHeight;
+        
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY <= heroHeight) {
+                const progress = scrollY / heroHeight;
+                
+                // Parallax: push background down slower than scroll
+                heroBg.style.transform = `translateY(${scrollY * 0.35}px)`;
+                
+                // Fade out hero content as user scrolls
+                const fadeOpacity = Math.max(0, 1 - progress * 2);
+                if (heroContent) {
+                    heroContent.style.opacity = fadeOpacity;
+                    heroContent.style.transform = `translateY(${scrollY * 0.15}px)`;
+                }
+                if (heroScrollIndicator) {
+                    heroScrollIndicator.style.opacity = Math.max(0, fadeOpacity - 0.3);
+                }
+            }
+        }, { passive: true });
+    }
+    
+    // Animated Counter: rating score counts up from 0 on scroll-in
+    const ratingEl = document.querySelector('.rating-score');
+    if (ratingEl) {
+        const targetValue = parseFloat(ratingEl.textContent);
+        let hasAnimated = false;
+        
+        function animateCounter(element, target, duration) {
+            const start = performance.now();
+            function step(timestamp) {
+                const elapsed = timestamp - start;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease-out cubic for a smooth deceleration
+                const eased = 1 - Math.pow(1 - progress, 3);
+                element.textContent = (target * eased).toFixed(1);
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+        
+        const ratingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasAnimated) {
+                    hasAnimated = true;
+                    animateCounter(ratingEl, targetValue, 1800);
+                    ratingObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        ratingObserver.observe(ratingEl);
     }
 });
