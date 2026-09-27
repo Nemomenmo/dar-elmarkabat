@@ -28,6 +28,8 @@
     --text-primary: #17211A;
     --text-secondary: #4A5C50;
     --accent-gold: #B8923A;
+    --accent-gold-text: #8A6B23; /* WCAG-safe gold for readable text/icons on light surfaces */
+    --gold-shimmer-mid: #C9A24A;
     --accent-green: #1C3325;
     --border-color: rgba(0, 0, 0, 0.06);
     --overlay: rgba(23, 33, 26, 0.4);
@@ -45,6 +47,8 @@
     --text-primary: #F0F2EB;
     --text-secondary: #9AA69E;
     --accent-gold: #D4AF37;
+    --accent-gold-text: #D4AF37; /* already >9:1 contrast on this theme's dark surfaces */
+    --gold-shimmer-mid: #F5D780;
     --accent-green: #24402D;
     --border-color: rgba(255, 255, 255, 0.08);
     --overlay: rgba(11, 14, 12, 0.6);
@@ -68,6 +72,26 @@
     outline: 2px solid var(--accent-gold);
     outline-offset: 4px;
     border-radius: 4px;
+}
+
+/* Skip Link — hidden until a keyboard user tabs to it, so screen-reader
+   and keyboard users can bypass the nav instead of tabbing through it
+   on every single page load. */
+.skip-link {
+    position: fixed;
+    top: -100px;
+    right: 20px;
+    z-index: 3000;
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    box-shadow: var(--card-shadow);
+    transition: top var(--transition-fast);
+}
+.skip-link:focus {
+    top: 20px;
 }
 
 html {
@@ -472,7 +496,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 .promo-badge {
     display: inline-block;
     background: rgba(212, 175, 55, 0.15);
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     padding: 0.4rem 1rem;
     border-radius: 50px;
     font-size: 0.9rem;
@@ -574,7 +598,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 .section-label {
     font-size: 0.9rem;
     font-family: var(--font-body);
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     letter-spacing: 2px;
     text-transform: uppercase;
     display: block;
@@ -644,11 +668,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     font-size: 1rem;
     font-family: var(--font-body);
     color: #D1D8D3;
-    opacity: 0;
-    transform: translateY(10px);
     transition: var(--transition-fast);
-    height: 0;
-    overflow: hidden;
 }
 
 .card-cta {
@@ -658,15 +678,30 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    opacity: 0;
-    transform: translateX(10px);
     transition: var(--transition-fast);
     font-weight: 700;
 }
 
+/* On touch devices there is no hover, so description/CTA are always visible
+   (set above) — the reveal-on-hover treatment below only applies to devices
+   that actually have a mouse/trackpad, where the collapsed default gives the
+   grid a cleaner resting state. */
+@media (hover: hover) and (pointer: fine) {
+    .card-desc {
+        opacity: 0;
+        transform: translateY(10px);
+        height: 0;
+        overflow: hidden;
+    }
+    .card-cta {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    .grid-card:hover .card-desc { opacity: 1; transform: translateY(0); height: auto; margin-bottom: 0.5rem; }
+    .grid-card:hover .card-cta { opacity: 1; transform: translateX(0); }
+}
+
 .grid-card:hover img { transform: scale(1.03); }
-.grid-card:hover .card-desc { opacity: 1; transform: translateY(0); height: auto; margin-bottom: 0.5rem;}
-.grid-card:hover .card-cta { opacity: 1; transform: translateX(0); }
 
 .grid-card.large { grid-column: span 2; grid-row: span 2; }
 .grid-card.medium { grid-column: span 2; grid-row: span 1; }
@@ -694,7 +729,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 .facility-category {
     font-size: 1rem;
     font-family: var(--font-body);
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     margin-bottom: 1rem;
     display: block;
     letter-spacing: 1px;
@@ -736,7 +771,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 }
 
 .amenities-list i {
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     font-size: 1.2rem;
 }
 
@@ -795,7 +830,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 
 .btn-text {
     background: transparent;
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     padding: 0.9rem 1rem;
 }
 .btn-text:hover { 
@@ -1090,7 +1125,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 .contact-card:hover { transform: translateY(-5px); border-color: var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 .contact-icon { font-size: 2.2rem; color: var(--accent-gold); margin-bottom: 1.2rem; }
 .contact-link { display: block; margin-top: 0.5rem; font-weight: 700; color: var(--text-primary); transition: color 0.2s; font-family: var(--font-heading); font-size: 1.1rem; }
-.contact-link:hover { color: var(--accent-gold); }
+.contact-link:hover { color: var(--accent-gold-text); }
 .wa-link { color: #25D366; }
 
 /* ==========================================================================
@@ -1203,6 +1238,11 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     .facility-layout { grid-template-columns: 1fr; gap: 3rem; }
     .reverse-layout .facility-layout { direction: rtl; } 
     .footer-container { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+
+    /* Once the layout stacks to one column, lead with the photo rather than
+       a wall of text — stronger first impression, and every showcase
+       section (alternating or not) now reads image-first on mobile/tablet. */
+    .facility-gallery { order: -1; }
 }
 
 @media (max-width: 768px) {
@@ -1215,8 +1255,12 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     .huge-text { font-size: 2rem; }
     .cinematic-transition .gold-text { font-size: 1.5rem; }
     
-    .editorial-grid { grid-template-columns: 1fr; grid-auto-rows: 300px; }
+    .editorial-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(280px, auto); }
     .grid-card.large, .grid-card.medium, .grid-card.small { grid-column: span 1; grid-row: span 1; }
+    /* Keep a little of the editorial hierarchy alive on mobile instead of
+       flattening every card to the same size: the hotel/"large" card stays
+       taller so it still reads as the featured entry point. */
+    .grid-card.large { min-height: 380px; }
     
     .facility-name { font-size: 2.4rem; }
     .amenities-list { grid-template-columns: 1fr; }
@@ -1247,6 +1291,18 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     .floating-social-group { bottom: 20px; left: 20px; }
     .social-float { width: 50px; height: 50px; font-size: 1.5rem; }
     .glass-modal-content { padding: 2rem 1.5rem; }
+
+    /* Icon buttons (theme toggle, mobile menu, close, scroll-to-top) sat at
+       40px — under the 44px minimum comfortable touch target on phones. */
+    .icon-btn { width: 44px; height: 44px; }
+
+    /* The gallery's fixed 450px hero + 220px thumbnail row was tuned for
+       desktop's two-column layout. Now that the gallery leads on mobile
+       (see facility-gallery order above), scale it down so a single
+       facility section doesn't force excessive scrolling before the text. */
+    .gallery-hero { height: 260px; }
+    .gallery-thumbnails { height: 130px; gap: 1rem; }
+    .facility-gallery { gap: 1rem; }
 }
 
 /* ==========================================================================
@@ -1460,7 +1516,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     border-color: var(--accent-gold);
 }
 .pricing-tier h4 {
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     font-size: 1.3rem;
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
@@ -1513,7 +1569,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     font-size: 1rem;
 }
 .pricing-notes i {
-    color: var(--accent-gold);
+    color: var(--accent-gold-text);
     margin-top: 0.35rem;
 }
 
@@ -1530,7 +1586,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 
 /* Gold Shimmer Gradient Text */
 .gold-text {
-    background: linear-gradient(135deg, var(--accent-gold) 0%, #F5D780 45%, var(--accent-gold) 100%);
+    background: linear-gradient(135deg, var(--accent-gold-text) 0%, var(--gold-shimmer-mid) 45%, var(--accent-gold-text) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1722,7 +1778,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 
 /* Rating Score — Gradient Number */
 .rating-score {
-    background: linear-gradient(180deg, var(--text-primary) 30%, var(--accent-gold) 100%);
+    background: linear-gradient(180deg, var(--text-primary) 30%, var(--accent-gold-text) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

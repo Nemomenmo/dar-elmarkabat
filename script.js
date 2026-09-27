@@ -29,6 +29,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
+       0.5 SHARED SCROLL DISPATCHER
+       ========================================================================== */
+    // The page used to attach 3 separate `scroll` listeners (navbar state,
+    // scroll-spy/scroll-to-top, hero parallax), each reading layout on every
+    // scroll event. Registering them here instead means a single listener
+    // and a single requestAnimationFrame batch per frame, so all three run
+    // together instead of forcing 3x the reflow work while scrolling.
+    const scrollCallbacks = [];
+    function onScroll(callback) {
+        scrollCallbacks.push(callback);
+    }
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+            window.requestAnimationFrame(() => {
+                scrollCallbacks.forEach(cb => cb());
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }, { passive: true });
+
+    /* ==========================================================================
        1. PRELOADER & THEME MANAGEMENT
        ========================================================================== */
     const preloader = document.getElementById('preloader');
@@ -72,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link:not(.open-contact-modal)');
 
-    window.addEventListener('scroll', () => {
+    onScroll(() => {
         if (window.scrollY > 50) navbar.classList.add('scrolled');
         else navbar.classList.remove('scrolled');
-    }, { passive: true });
+    });
 
     function toggleMobileMenu() {
         const isActive = mobileMenu.classList.contains('active');
@@ -177,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (facility.locationUrl) actionsHTML += `<a href="${facility.locationUrl}" target="_blank" class="btn btn-text"><i class="fas fa-map-marker-alt"></i> الموقع</a>`;
 
                 const thumbsHTML = facility.galleryThumbs.map(thumb => 
-                    `<img src="${thumb}" alt="Gallery" class="lightbox-trigger" data-gallery="${facility.id}" loading="lazy">`
+                    `<img src="${thumb}" alt="${facility.name}" class="lightbox-trigger" data-gallery="${facility.id}" loading="lazy">`
                 ).join('');
 
                 const sectionHTML = `
@@ -282,6 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let currentGallery = [];
     let currentIndex = 0;
+    let currentGalleryLabel = '';
+    let lightboxLastFocusedTrigger = null;
 
     document.querySelectorAll('.lightbox-trigger').forEach(trigger => {
         trigger.addEventListener('click', (e) => {
@@ -290,6 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const galleryNodes = document.querySelectorAll(`.lightbox-trigger[data-gallery="${galleryName}"]`);
             currentGallery = Array.from(galleryNodes).map(node => node.src);
             currentIndex = currentGallery.indexOf(trigger.src);
+            currentGalleryLabel = trigger.alt || '';
+            lightboxLastFocusedTrigger = trigger;
             openLightbox();
         });
     });
@@ -301,6 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (facility && facility.menu.length > 0) {
                 currentGallery = facility.menu;
                 currentIndex = 0;
+                currentGalleryLabel = facility.name;
+                lightboxLastFocusedTrigger = btn;
                 openLightbox();
             }
         });
@@ -312,6 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
         pushOverlayState();
+        lbClose.focus();
     }
 
     function closeLightbox() {
@@ -319,10 +349,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
         setTimeout(() => { lbImage.src = ''; }, 300);
         popOverlayState();
+        if (lightboxLastFocusedTrigger && typeof lightboxLastFocusedTrigger.focus === 'function') {
+            lightboxLastFocusedTrigger.focus();
+        }
+        lightboxLastFocusedTrigger = null;
     }
 
     function updateLightboxImage() {
         lbImage.src = currentGallery[currentIndex];
+        lbImage.alt = currentGalleryLabel ? `${currentGalleryLabel} (${currentIndex + 1}/${currentGallery.length})` : '';
         lbCurrent.textContent = currentIndex + 1;
         lbTotal.textContent = currentGallery.length;
         lbPrev.style.visibility = currentGallery.length > 1 ? 'visible' : 'hidden';
@@ -365,17 +400,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     /* ==========================================================================
-       6. GLOBAL MODALS (CONTACT, INSTRUCTIONS, PRICING) - BUG FIXED
+       6. GLOBAL MODALS (CONTACT, INSTRUCTIONS, PRICING)
        ========================================================================== */
     const allModals = document.querySelectorAll('.glass-modal');
-    
+    let lastFocusedTrigger = null;
+
     function closeModal(modalElement) {
         if (modalElement.classList.contains('active')) {
             modalElement.classList.remove('active');
             document.body.style.overflow = '';
             popOverlayState();
+            // Return focus to whatever opened the modal, so keyboard users
+            // don't land back at the top of the page.
+            if (lastFocusedTrigger && typeof lastFocusedTrigger.focus === 'function') {
+                lastFocusedTrigger.focus();
+            }
+            lastFocusedTrigger = null;
         }
     }
+
+    // Opens a modal and moves focus into it (its .glass-modal-content carries
+    // tabindex="-1" + role="dialog" in the HTML so it can receive focus and
+    // is announced correctly by screen readers).
+    function openModal(modalElement, triggerElement) {
+        lastFocusedTrigger = triggerElement || document.activeElement;
+        modalElement.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        pushOverlayState();
+        const content = modalElement.querySelector('.glass-modal-content');
+        if (content) content.focus();
+    }
+
+    function getFocusableIn(container) {
+        return Array.from(container.querySelectorAll(
+            'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        ));
+    }
+
+    // Escape closes whichever modal is open, and Tab is trapped inside it
+    // so keyboard focus can't silently escape to the page underneath.
+    document.addEventListener('keydown', (e) => {
+        const openModalEl = Array.from(allModals).find(m => m.classList.contains('active'));
+        if (!openModalEl) return;
+
+        if (e.key === 'Escape') {
+            closeModal(openModalEl);
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            const content = openModalEl.querySelector('.glass-modal-content');
+            if (!content) return;
+            const focusable = getFocusableIn(content);
+            if (focusable.length === 0) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    });
 
     document.querySelectorAll('.close-modal-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -400,12 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 mobileMenu.classList.remove('active');
                 const icon = document.querySelector('#mobile-menu-btn i');
                 if (icon) icon.className = 'fas fa-bars';
-            } else {
-                document.body.style.overflow = 'hidden';
-                pushOverlayState();
             }
-            
-            contactModal.classList.add('active');
+            openModal(contactModal, btn);
         });
     });
 
@@ -421,9 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `<li><i class="fas fa-check-circle gold-text"></i> <span>${inst}</span></li>`
             ).join('');
             
-            instructionsModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            pushOverlayState();
+            openModal(instructionsModal, btn);
         });
     });
 
@@ -438,9 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             renderPricingData(facility.pricing);
             
-            pricingModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            pushOverlayState();
+            openModal(pricingModal, btn);
         });
     });
 
@@ -452,12 +533,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const tabBtn = document.createElement('button');
             tabBtn.className = `pricing-tab-btn ${index === 0 ? 'active' : ''}`;
             tabBtn.textContent = category.title;
+            tabBtn.id = `pricing-tab-${index}`;
+            tabBtn.setAttribute('role', 'tab');
+            tabBtn.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+            tabBtn.setAttribute('aria-controls', `pricing-view-${index}`);
             tabBtn.addEventListener('click', () => switchPricingTab(index));
             pricingTabsContainer.appendChild(tabBtn);
 
             const contentBox = document.createElement('div');
             contentBox.className = `pricing-content-view ${index === 0 ? 'active fade-in' : ''}`;
             contentBox.id = `pricing-view-${index}`;
+            contentBox.setAttribute('role', 'tabpanel');
+            contentBox.setAttribute('aria-labelledby', `pricing-tab-${index}`);
             
             let tiersHTML = category.tiers.map(tier => {
                 let pricesHTML = '';
@@ -492,6 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function switchPricingTab(activeIndex) {
         document.querySelectorAll('.pricing-tab-btn').forEach((btn, idx) => {
             btn.classList.toggle('active', idx === activeIndex);
+            btn.setAttribute('aria-selected', idx === activeIndex ? 'true' : 'false');
         });
         document.querySelectorAll('.pricing-content-view').forEach((view, idx) => {
             view.classList.remove('active', 'fade-in');
@@ -579,9 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 actionCall.href = `tel:${phone}`;
                 actionWa.href = `https://wa.me/${wa}`;
-                actionSheet.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                pushOverlayState();
+                openModal(actionSheet, btn);
             }
         });
     });
@@ -599,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const getSections = () => document.querySelectorAll('section[id], header[id]');
     const getNavItems = () => document.querySelectorAll('.nav-links .nav-item:not(.open-contact-modal)');
 
-    window.addEventListener('scroll', () => {
+    onScroll(() => {
         if (window.scrollY > 500) {
             scrollTopBtn.classList.add('visible');
         } else {
@@ -621,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.classList.add('active-nav');
             }
         });
-    }, { passive: true });
+    });
 
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
@@ -642,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroBg && heroSection) {
         const heroHeight = heroSection.offsetHeight;
         
-        window.addEventListener('scroll', () => {
+        onScroll(() => {
             const scrollY = window.scrollY;
             if (scrollY <= heroHeight) {
                 const progress = scrollY / heroHeight;
@@ -660,7 +746,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     heroScrollIndicator.style.opacity = Math.max(0, fadeOpacity - 0.3);
                 }
             }
-        }, { passive: true });
+        });
     }
     
     // Animated Counter: rating score counts up from 0 on scroll-in

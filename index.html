@@ -13,13 +13,44 @@
     <meta property="og:url" content="https://nemomenmo.github.io/dar-elmarkabat/">
     <meta property="og:type" content="website">
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="دار المركبات | Dar Elmarkabat">
+    <meta name="twitter:description" content="وجهتك المتكاملة للإقامة، الطعام، الترفيه، والمناسبات. اكتشف الفخامة في قلب دار المركبات.">
+    <meta name="twitter:image" content="https://nemomenmo.github.io/dar-elmarkabat/assets/og-image.jpg">
+
+    <link rel="canonical" href="https://nemomenmo.github.io/dar-elmarkabat/">
+    <meta name="theme-color" content="#0B0E0C">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LodgingBusiness",
+        "name": "دار المركبات",
+        "alternateName": "Dar Elmarkabat",
+        "description": "وجهتك المتكاملة للإقامة، الطعام، الترفيه، والمناسبات في العين السخنة.",
+        "url": "https://nemomenmo.github.io/dar-elmarkabat/",
+        "image": "https://nemomenmo.github.io/dar-elmarkabat/assets/og-image.jpg",
+        "telephone": "+20223428242",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "العين السخنة",
+            "addressCountry": "EG"
+        },
+        "sameAs": [
+            "https://www.facebook.com/Dar.elmarkabat"
+        ]
+    }
+    </script>
 </head>
 <body>
+    <a href="#home" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
     <div id="preloader">
         <div class="loader-content">
             <h2 class="loader-logo">دار المركبات</h2>
@@ -28,6 +59,7 @@
     </div>
 
     <nav class="navbar" id="navbar">
+
         <div class="nav-container">
             <a href="#home" class="brand-logo">دار المركبات</a>
             <div class="nav-links desktop-only">
@@ -62,7 +94,7 @@
         </div>
     </div>
 
-    <header id="home" class="hero">
+    <header id="home" class="hero" tabindex="-1">
         <div class="hero-bg">
             <img src="./assets/hero/hero-bg.jpg" alt="دار المركبات" loading="eager">
         </div>
@@ -182,10 +214,10 @@
 
     <!-- Instructions Modal -->
     <div id="instructions-modal" class="glass-modal">
-        <div class="glass-modal-content">
+        <div class="glass-modal-content" role="dialog" aria-modal="true" aria-labelledby="instructions-modal-title" tabindex="-1">
             <div class="modal-header">
-                <h3>التعليمات والشروط</h3>
-                <button class="icon-btn close-modal-btn" data-target="instructions-modal"><i class="fas fa-times"></i></button>
+                <h3 id="instructions-modal-title">التعليمات والشروط</h3>
+                <button class="icon-btn close-modal-btn" data-target="instructions-modal" aria-label="إغلاق"><i class="fas fa-times"></i></button>
             </div>
             <ul id="instructions-list" class="instructions-list"></ul>
         </div>
@@ -193,12 +225,12 @@
 
     <!-- Pricing Modal (Tabbed Dashboard) -->
     <div id="pricing-modal" class="glass-modal">
-        <div class="glass-modal-content pricing-content-box">
+        <div class="glass-modal-content pricing-content-box" role="dialog" aria-modal="true" aria-labelledby="pricing-modal-title" tabindex="-1">
             <div class="modal-header">
-                <h3>قائمة الأسعار والإقامة</h3>
-                <button class="icon-btn close-modal-btn" data-target="pricing-modal"><i class="fas fa-times"></i></button>
+                <h3 id="pricing-modal-title">قائمة الأسعار والإقامة</h3>
+                <button class="icon-btn close-modal-btn" data-target="pricing-modal" aria-label="إغلاق"><i class="fas fa-times"></i></button>
             </div>
-            <div class="pricing-tabs" id="pricing-tabs-container">
+            <div class="pricing-tabs" id="pricing-tabs-container" role="tablist">
                 <!-- Tabs Injected dynamically -->
             </div>
             <div id="pricing-details-container" class="pricing-details">
@@ -209,10 +241,10 @@
 
     <!-- Contact Modal -->
     <div id="contact-modal" class="glass-modal">
-        <div class="glass-modal-content">
+        <div class="glass-modal-content" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" tabindex="-1">
             <div class="modal-header">
-                <h3>دليل التواصل المباشر</h3>
-                <button class="icon-btn close-modal-btn" data-target="contact-modal"><i class="fas fa-times"></i></button>
+                <h3 id="contact-modal-title">دليل التواصل المباشر</h3>
+                <button class="icon-btn close-modal-btn" data-target="contact-modal" aria-label="إغلاق"><i class="fas fa-times"></i></button>
             </div>
             <div class="contact-grid">
                 <div class="contact-card">
@@ -247,10 +279,10 @@
 
     <!-- Action Sheet Modal (Contact Choice for Mobile) -->
     <div id="action-sheet-modal" class="glass-modal">
-        <div class="glass-modal-content mini-modal">
+        <div class="glass-modal-content mini-modal" role="dialog" aria-modal="true" aria-labelledby="action-sheet-modal-title" tabindex="-1">
             <div class="modal-header">
-                <h3>اختر وسيلة التواصل</h3>
-                <button class="icon-btn close-modal-btn" data-target="action-sheet-modal"><i class="fas fa-times"></i></button>
+                <h3 id="action-sheet-modal-title">اختر وسيلة التواصل</h3>
+                <button class="icon-btn close-modal-btn" data-target="action-sheet-modal" aria-label="إغلاق"><i class="fas fa-times"></i></button>
             </div>
             <div class="action-sheet-options">
                 <a href="#" id="action-call" class="btn btn-outline"><i class="fas fa-phone"></i> اتصال هاتفي</a>
@@ -260,16 +292,16 @@
     </div>
 
     <!-- Advanced Lightbox / Menu Viewer -->
-    <div id="lightbox" class="lightbox">
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="عارض الصور">
         <div class="lightbox-toolbar">
             <div class="lightbox-counter"><span id="lb-current">1</span> / <span id="lb-total">1</span></div>
-            <button id="lb-close" class="icon-btn"><i class="fas fa-times"></i></button>
+            <button id="lb-close" class="icon-btn" aria-label="إغلاق عارض الصور"><i class="fas fa-times"></i></button>
         </div>
-        <button id="lb-prev" class="lightbox-nav prev"><i class="fas fa-chevron-right"></i></button>
+        <button id="lb-prev" class="lightbox-nav prev" aria-label="الصورة السابقة"><i class="fas fa-chevron-right"></i></button>
         <div class="lightbox-content">
-            <img id="lb-image" src="" alt="Gallery Image">
+            <img id="lb-image" src="" alt="">
         </div>
-        <button id="lb-next" class="lightbox-nav next"><i class="fas fa-chevron-left"></i></button>
+        <button id="lb-next" class="lightbox-nav next" aria-label="الصورة التالية"><i class="fas fa-chevron-left"></i></button>
     </div>
 
     <!-- Scripts -->
