@@ -183,7 +183,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 
 .loader-logo {
     color: #D4AF37;
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
     font-weight: 800;
     letter-spacing: -0.5px;
     margin-bottom: 20px;
@@ -375,7 +375,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 }
 
 .hero-title {
-    font-size: clamp(3rem, 6vw, 5rem);
+    font-size: clamp(2.5rem, 1.6rem + 5vw, 5rem);
     font-weight: 800;
     margin-bottom: 1rem;
 }
@@ -577,13 +577,13 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 }
 
 .huge-text {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-size: clamp(2rem, 1.1rem + 3.8vw, 4.5rem);
     font-weight: 800;
     margin-bottom: 0.5rem;
 }
 
 .cinematic-transition .gold-text {
-    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-size: clamp(1.5rem, 0.9rem + 3vw, 3.5rem);
     font-weight: 700;
 }
 
@@ -606,7 +606,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 }
 
 .section-title {
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 1.3rem + 2.2vw, 2.5rem);
     margin-bottom: 0.5rem;
 }
 
@@ -736,7 +736,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
 }
 
 .facility-name {
-    font-size: 3.2rem;
+    font-size: clamp(2.2rem, 1.5rem + 3vw, 3.2rem);
     margin-bottom: 0.2rem;
 }
 
@@ -1251,10 +1251,6 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
     
     .section-padding { padding: 5rem 0; }
     
-    .hero-title { font-size: 2.5rem; }
-    .huge-text { font-size: 2rem; }
-    .cinematic-transition .gold-text { font-size: 1.5rem; }
-    
     .editorial-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(280px, auto); }
     .grid-card.large, .grid-card.medium, .grid-card.small { grid-column: span 1; grid-row: span 1; }
     /* Keep a little of the editorial hierarchy alive on mobile instead of
@@ -1262,7 +1258,6 @@ h1, h2, h3, h4, h5, h6, .brand-logo, .nav-item, .btn, .card-tag {
        taller so it still reads as the featured entry point. */
     .grid-card.large { min-height: 380px; }
     
-    .facility-name { font-size: 2.4rem; }
     .amenities-list { grid-template-columns: 1fr; }
     
     .action-group { flex-direction: column; align-items: stretch; }
